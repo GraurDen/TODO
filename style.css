@@ -1,11 +1,178 @@
-h1 {
-    color: antiquewhite;
+/*#region Reset*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
-h2{
-    color: white;
+/*#endregion*/
+
+body {
+    font-size: 62.5%;
+    min-height: 100vh;
+    min-width: 1040px;
+    line-height: 1;
+    background: #7F7FD5;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); 
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+
+    /* font-family: 'Montserrat', sans-serif; */
+    font-family: 'Roboto', sans-serif;
 }
 
-h3{
-    color: black;
+.container{
+    max-width: 1000px;
+    margin: 50px auto;
+}
+
+.title{
+    font-family: 'Montserrat', sans-serif;;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.button{
+    overflow: hidden;
+    display: inline-block;
+    box-shadow: 0 11px 20px 0 rgb(197 56 49 / 30%);
+    border: #ffdead;
+    border-radius: 7px;
+    min-height: 40px;
+    margin: 0;
+    font-family: Calibri,Corbel;
+    font-size: 1.8em;
+    font-weight: bold;
+    line-height: 1.42857143;
+    cursor: pointer;
+    text-align: center;
+    outline: none;
+    color: #222;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 7px 30px;
+}
+
+button{
+    overflow: hidden;
+    display: inline-block;
+    border: #222;
+    border-radius: 5px;
+    min-height: 30px;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.3;
+    cursor: pointer;
+    text-align: center;
+    outline: none;
+    color: #222;
+    padding: 5px;
+}
+
+.todo{
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: azure;
+}
+
+.todo__input{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.todo__task{
+    width: 75%;
+}
+
+.todo__task input{
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid rgb(190, 189, 189);
+    min-height: 40px;
+    padding: 0 10px;
+    font-size: 16px;
+    color:rgb(216, 212, 212);
+}
+
+.todo__button{
+    width: 15%;
+}
+
+.todo__button button{
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    border: 1px solid #03a9f4;
+    border-radius: 5px;
+    min-height: 42px;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.3;
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+    color: rgb(245, 241, 241);
+    outline: none;
+    background-color: #03a9f4;
+    padding: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.todo__button button:hover{
+    box-shadow: none
+}
+
+
+.todo__button button:active{
+    box-shadow: rgba(97, 97, 97, 0.16) 0px 0px 4px 2px inset;
 }
