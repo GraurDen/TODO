@@ -18,6 +18,7 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+    box-sizing: border-box;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -44,24 +45,31 @@ table {
 }
 
 /*#endregion*/
-
+html{
+   
+}
 body {
     font-size: 62.5%;
     min-height: 100vh;
-    min-width: 1040px;
+    width: 100%;
     line-height: 1;
     background: #7F7FD5;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); 
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
-
+    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5) no-repeat;  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5)no-repeat; 
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */  
+    /* position: relative; */
     /* font-family: 'Montserrat', sans-serif; */
     font-family: 'Roboto', sans-serif;
+    /* padding: 0 20px; */
 }
 
 .container{
-    max-width: 1000px;
+    width: 100%;
+    max-width: 500px;
+    width: auto;
     margin: 50px auto;
+    padding: 0 10px;
+    /* padding: 0 20px; */
 }
 
 .title{
@@ -74,22 +82,9 @@ body {
     margin-bottom: 30px;
 }
 
-button{
-    overflow: hidden;
-    /* display: inline-block; */
-    /* border: #222; */
-    border-radius: 5px;
-    /* min-height: 30px; */
-    margin: 0;
-    cursor: pointer;
-    text-align: center;
-    outline: none;
-    color: #222;
-    padding: 5px;
-}
-
 .todo{
     max-width: 500px;
+    width: 100%;
     margin: 0 auto;
     padding: 30px;
     border-radius: 10px;
