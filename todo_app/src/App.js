@@ -1,40 +1,21 @@
-import logo from "./logo.svg";
-import "./App.css";
+import './App.css';
+import Header from './components/header/Header.jsx';
+import Add_task from './components/add_task/Add_task.jsx';
+import Options from './components/options/Options.jsx';
 
 function App() {
     return (
         <div class='container'>
-            <div class='title'>
-                <h1>ToDo</h1>
-            </div>
+            <Header />
 
+            {/* Content */}
             <div class='todo'>
-                <div class='todo__input'>
-                    <div class='todo__task'>
-                        <input type='text/' placeholder='I want to...' />
-                    </div>
-                    <div class='todo__button'>
-                        <button>Add</button>
-                    </div>
-                </div>
+                <Add_task />
 
-                <div class='todo__options'>
-                    <div class='todo__options__left'>
-                        <button class='all btn_active_underline'>all</button>
-                        <button class='done'>done</button>
-                        <button class='undone'>undone</button>
-                    </div>
-
-                    <div class='todo__options__right'>
-                        <div class='todo__options__name'>Sort by Date</div>
-                        <div class='todo__options_sort'>
-                            <button class='new'></button>
-                            <button class='last btn_active_bg'></button>
-                        </div>
-                    </div>
-                </div>
+                <Options />
 
                 <div class='todo__items'>
+                    {/*                 
                     <div class='todo__item'>
                         <div class='todo__item__input'>
                             <input type='checkbox' />
@@ -66,13 +47,13 @@ function App() {
                         <div class='todo__item__del'>
                             <button type='button'></button>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div class='todo__pagination'>
                     <button class='btn-prev' disabled=''>
-                        {" "}
-                        «{" "}
+                        {' '}
+                        «{' '}
                     </button>
                     <span class='pagination-selected'>1</span>
                     <span>2</span>
