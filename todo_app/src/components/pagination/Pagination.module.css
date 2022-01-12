@@ -1,0 +1,74 @@
+
+/* #region Todo_pagination */
+.todo__pagination{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: #333;
+}
+
+.todo__pagination button{
+    font-family: 'Roboto', sans- serif;
+    font-weight: 400;
+    font-style: normal;
+    outline: none;
+    background-image: none;
+    padding: 2px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    outline: none;
+    border: none;
+    font-size: 22px;
+    line-height: 1.2;
+}
+
+.todo__pagination button[disabled]{
+    background-color: #eee;
+    border-color: #ddd;
+    color: rgb(189, 189, 189);
+}
+
+
+/* Кнропка - назад */
+button.btnPrev{
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+/* Кнопка - вперед */
+button.btnNext{    
+    border-radius: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+button.btnNext:hover{    
+    background-color: rgb(221, 219, 219);
+}
+
+.todo__pagination span{
+    border: 1px solid #ddd;
+    margin-left: -1px;
+    overflow: hidden;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #666;
+    cursor: pointer;
+    background-color: #fafafa;
+}
+
+.todo__pagination span:hover{
+    background-color: #e3e3e3;
+}
+
+
+.todo__pagination span.paginationSelected{
+    background-color: #eee;
+    border-color: #ddd;
+    font-weight: 700;
+    color: #0e0e0e;
+}
+/* #endregion */
