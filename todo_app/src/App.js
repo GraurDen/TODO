@@ -23,16 +23,6 @@ function App() {
                 </div>
 
                 <Pagination />
-                {/* <div class='todo__pagination'>
-                    <button class='btn-prev' disabled=''>
-                        {' '}
-                        «{' '}
-                    </button>
-                    <span class='pagination-selected'>1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <button class='btn-next'> » </button>
-                </div> */}
             </div>
         </div>
     );
