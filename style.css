@@ -387,14 +387,22 @@ button.btn-next:hover{
         height: 24px;
     }
 
+    .todo__options__left {
+        width: 55%;
+    }
+
+    .todo__options__right {
+        width: 45%;
+    }
+
     .todo__options__left button {
-        min-height: 36px;
+        min-height: 34px;
         font-size: 12px;
-        padding: 5px 8px;
+        padding: 5px;
     }
 
     .todo__options__name{
-        font-size: 12px;
+        font-size: 10px;
         margin-right: 5px;
     }
 
