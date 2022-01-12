@@ -45,9 +45,7 @@ table {
 }
 
 /*#endregion*/
-html{
-   
-}
+
 body {
     font-size: 62.5%;
     min-height: 100vh;
@@ -57,10 +55,7 @@ body {
     background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5) no-repeat;  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5)no-repeat; 
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */  
-    /* position: relative; */
-    /* font-family: 'Montserrat', sans-serif; */
-    font-family: 'Roboto', sans-serif;
-    /* padding: 0 20px; */
+    font-family: 'Montserrat', sans-serif;
 }
 
 .container{
@@ -69,7 +64,6 @@ body {
     width: auto;
     margin: 50px auto;
     padding: 0 10px;
-    /* padding: 0 20px; */
 }
 
 .title{
@@ -328,7 +322,7 @@ button.btn_active_bg{
     text-align: center;
     outline: none;
     border: none;
-    font-size: 20px;
+    font-size: 22px;
     line-height: 1.2;
 }
 
@@ -337,6 +331,7 @@ button.btn_active_bg{
     border-color: #ddd;
     color: rgb(189, 189, 189);
 }
+
 
 /* Кнропка - назад */
 button.btn-prev{
@@ -379,4 +374,65 @@ button.btn-next:hover{
     font-weight: 700;
     color: #0e0e0e;
 }
+/* #endregion */
+
+/* #region Media Queries */
+@media only screen and (max-width: 767.98px){
+    .todo{
+        padding: 30px 10px;
+    }
+
+    .todo__options_sort button {
+        width: 24px;
+        height: 24px;
+    }
+
+    .todo__options__left button {
+        min-height: 36px;
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+
+    .todo__options__name{
+        font-size: 12px;
+        margin-right: 5px;
+    }
+
+    .title{
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .todo__task {
+        width: 70%;
+    }
+
+    .todo__button {
+        width: 20%;
+    }
+
+    .todo__button button {
+        font-size: 12px;
+        min-height: 36px;
+    }
+
+    .todo__input {
+        margin-bottom: 20px;
+    }
+
+    .todo__task input {
+        min-height: 34px;
+        font-size: 14px;
+    }
+
+    .todo__items {
+        margin-bottom: 30px;
+        max-height: 300px;
+    }
+
+    .todo__options {
+        margin-bottom: 20px;
+    }
+}
+
 /* #endregion */
