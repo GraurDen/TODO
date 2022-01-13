@@ -4,7 +4,7 @@ import styles from './Pagination.module.css';
 const Pagination = () => {
     return (
         <div className={styles.todo__pagination}>
-            <button className={styles.btnPrev} disabled=''>
+            <button className={styles.btnPrev} disabled='true'>
                 {' '}
                 «{' '}
             </button>

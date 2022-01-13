@@ -69,6 +69,9 @@ button.btn_active_underline{
     background-repeat: no-repeat;
     background-position: center;
     background-color: transparent;
+    background-size: 50%;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 .todo__options_sort button:hover{
@@ -76,7 +79,6 @@ button.btn_active_underline{
 }
 
 .todo__options_sort .new{
-    /* background-image: url('images/arrow_sort_up.svg');    */
     background-image: url('../../images/arrow_sort_up.svg');   
 }
 
@@ -86,6 +88,7 @@ button.btn_active_underline{
 
 button.btn_active_bg{
     background-color: #d4edf8;
+    background-size: 60%;
 }
 
 /* #endregion */
