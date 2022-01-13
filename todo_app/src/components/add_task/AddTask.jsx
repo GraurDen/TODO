@@ -1,12 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './AddTask.module.css';
 
-const Add_task = () => {
+const Add_task = (props) => {
+    // Initial State
+    const [userInput, setUserInput] = useState('');
+
+    // Set input value
+    const handleChange = (e) => {
+        setUserInput(e.currentTarget.value);
+    };
+
+    // Add task and clear input value
+    const hanldeSubmit = (e) => {
+        e.preventDefault();
+        props.addTask(userInput);
+        setUserInput('');
+    };
+
+    // Add task on 'Enter' press
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            hanldeSubmit(e);
+        }
+    };
+
     return (
-        <form>
+        <form onSubmit={hanldeSubmit}>
             <div className={styles.todo__input}>
                 <div className={styles.todo__task}>
-                    <input type='text/' placeholder='I want to...' />
+                    <input
+                        type='text'
+                        onChange={handleChange}
+                        value={userInput}
+                        onKeyDown={handleKeyPress}
+                        placeholder='I want to...'
+                    />
                 </div>
                 <div className={styles.todo__button}>
                     <button>Add</button>
