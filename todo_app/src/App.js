@@ -21,6 +21,8 @@ function App() {
         }
     };
 
+    console.log(todos);
+
     // Remove task
     const removeTask = (id) => {
         setTodos([...todos.filter((item) => item.id !== id)]);
