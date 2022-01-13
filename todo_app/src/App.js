@@ -26,6 +26,17 @@ function App() {
         setTodos([...todos.filter((item) => item.id !== id)]);
     };
 
+    // Toggle addTask
+    const toggleTask = (id) => {
+        setTodos([
+            ...todos.map((item) =>
+                item.id === id
+                    ? { ...item, complete: !item.complete }
+                    : { ...item }
+            ),
+        ]);
+    };
+
     return (
         <div className={style.container}>
             <Header task={todos.length} />
@@ -43,6 +54,7 @@ function App() {
                                 item={item}
                                 key={item.id}
                                 removeTask={removeTask}
+                                toggleTask={toggleTask}
                             />
                         );
                     })}
