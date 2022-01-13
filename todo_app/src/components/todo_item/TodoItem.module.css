@@ -53,6 +53,28 @@
     margin-right: 20px;
 }
 
+.todo_item_input{
+    flex-grow: 1;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #222;
+}
+
+.todo_item_input input{
+    overflow: hidden;
+    border: none;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+    background-color: azure;
+    padding: 0;
+    margin: 0;
+}
+
 .todo__item__date{
     font-family: 'Montserrat', sans-serif;
     font-size: 11px;

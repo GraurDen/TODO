@@ -26,7 +26,16 @@ function App() {
         setTodos([...todos.filter((item) => item.id !== id)]);
     };
 
-    // Toggle addTask
+    // Edit task
+    const editTask = (id, userText) => {
+        setTodos([
+            ...todos.map((item) =>
+                item.id === id ? { ...item, text: userText } : { ...item }
+            ),
+        ]);
+    };
+
+    // Toggle task
     const toggleTask = (id) => {
         setTodos([
             ...todos.map((item) =>
@@ -55,6 +64,7 @@ function App() {
                                 key={item.id}
                                 removeTask={removeTask}
                                 toggleTask={toggleTask}
+                                editTask={editTask}
                             />
                         );
                     })}
