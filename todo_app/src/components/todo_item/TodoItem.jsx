@@ -1,26 +1,31 @@
 import React from 'react';
 import styles from './TodoItem.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const TodoItem = (props) => {
-    const [checked, setChecked] = useState(true);
+    const [checked, setChecked] = useState(props.item.complete);
+
     const [editMode, setEditMode] = useState(false);
     const [userInput, setUserInput] = useState(props.item.text);
 
+    // Set task to 'Done'
     const handleChange = () => {
         setChecked(!checked);
         props.toggleTask(props.item.id);
     };
 
+    // Toggle task to 'edit mode'
     const toggleEditMode = () => {
         setEditMode(!editMode);
     };
 
+    // Deactivate 'edit mode' and update task name
     const deactivateEditMode = () => {
         setEditMode(!editMode);
         props.editTask(props.item.id, userInput);
     };
 
+    // Set new task name
     const handleTaskName = (e) => {
         setUserInput(e.currentTarget.value);
     };
@@ -28,10 +33,14 @@ const TodoItem = (props) => {
     return (
         <div
             className={
-                checked ? styles.todo__item : styles.todo__item__completed
+                checked ? styles.todo__item__completed : styles.todo__item
             }>
             <div className={styles.todo__item__input}>
-                <input type='checkbox' onChange={handleChange} />
+                <input
+                    type='checkbox'
+                    onChange={handleChange}
+                    checked={checked}
+                />
             </div>
 
             {!editMode && (
@@ -50,12 +59,12 @@ const TodoItem = (props) => {
                         onBlur={deactivateEditMode}
                         autoFocus={true}
                         onChange={handleTaskName}
-                        disabled={checked ? false : true}
+                        disabled={checked ? true : false}
                     />
                 </div>
             )}
 
-            <div className={styles.todo__item__date}>11/01/2022</div>
+            <div className={styles.todo__item__date}>{props.item.date}</div>
             <div className={styles.todo__item__del}>
                 <button
                     type='button'

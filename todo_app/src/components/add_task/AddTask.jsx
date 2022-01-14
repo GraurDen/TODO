@@ -17,7 +17,7 @@ const Add_task = (props) => {
         setUserInput('');
     };
 
-    // Add task on 'Enter' press
+    // Add task on key 'Enter' press
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             hanldeSubmit(e);
@@ -34,6 +34,7 @@ const Add_task = (props) => {
                         value={userInput}
                         onKeyDown={handleKeyPress}
                         placeholder='I want to...'
+                        autoFocus={true}
                     />
                 </div>
                 <div className={styles.todo__button}>
