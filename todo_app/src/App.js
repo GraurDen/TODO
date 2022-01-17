@@ -11,9 +11,11 @@ import styles from './components/options/Options.module.css';
 function App() {
     const [todos, setTodos] = useState([]);
     const [filteredTodos, setFilteredTodos] = useState(todos);
+    const [sortedTodos, setSortedTodos] = useState(filteredTodos);
 
     useEffect(() => {
         setFilteredTodos(todos);
+        setSortedTodos(sortedTodos);
     }, [todos]);
 
     // addTask
@@ -24,6 +26,7 @@ function App() {
                 complete: false,
                 text: userInput,
                 date: createDate(),
+                sortingIndex: new Date(),
             };
             setTodos([...todos, newItem]);
         }
@@ -65,12 +68,31 @@ function App() {
         }
     };
 
-    const createDate = () => {
-        return new Date().toLocaleString();
+    // sorting by Descending
+    const filterByDescending = () => {
+        setSortedTodos([
+            ...filteredTodos.sort(compareNumbersDes).map((item) => item),
+        ]);
     };
 
-    function compareNumbers(a, b) {
-        return a - b;
+    // sorting by Ascending
+    const filterByAscending = () => {
+        setSortedTodos([
+            ...filteredTodos.sort(compareNumbersAsk).map((item) => item),
+        ]);
+    };
+
+    // Create date
+    const createDate = () => {
+        return new Date().toLocaleDateString();
+    };
+
+    // Sorting functions
+    function compareNumbersAsk(a, b) {
+        return a.sortingIndex - b.sortingIndex;
+    }
+    function compareNumbersDes(a, b) {
+        return b.sortingIndex - a.sortingIndex;
     }
 
     return (
@@ -107,9 +129,12 @@ function App() {
                             Sort by Date
                         </div>
                         <div className={styles.todo__options_sort}>
-                            <button className={styles.new}></button>
                             <button
-                                className={`${styles.last} ${styles.btn_active_bg}`}></button>
+                                className={styles.new}
+                                onClick={() => filterByDescending()}></button>
+                            <button
+                                className={`${styles.last} ${styles.btn_active_bg}`}
+                                onClick={() => filterByAscending()}></button>
                         </div>
                     </div>
                 </div>
