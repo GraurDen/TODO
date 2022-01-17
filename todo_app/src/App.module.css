@@ -169,8 +169,6 @@ button.btn_active_bg{
 /*#region Todo items*/
 .todo__items{
     margin-bottom: 50px;
-    max-height: 300px;
-    overflow-y: auto;
 }
 .todo__item{
     display: flex;

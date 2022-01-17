@@ -13,6 +13,21 @@ function App() {
     const [filteredTodos, setFilteredTodos] = useState(todos);
     const [sortedTodos, setSortedTodos] = useState(filteredTodos);
 
+    // Current page
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Tasks number per page
+    const [pageSize] = useState(5);
+
+    // Set current page
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        console.log(pageNumber);
+    };
+
+    const lastIndex = currentPage * pageSize;
+    const firstIndex = lastIndex - currentPage;
+
     useEffect(() => {
         setFilteredTodos(todos);
         setSortedTodos(sortedTodos);
@@ -154,7 +169,14 @@ function App() {
                     })}
                 </div>
 
-                <Pagination />
+                <Pagination
+                    todos={todos}
+                    paginate={paginate}
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    lastIndex={lastIndex}
+                    firstIndex={firstIndex}
+                />
             </div>
         </div>
     );
