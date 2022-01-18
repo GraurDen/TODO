@@ -96,6 +96,9 @@
     border-radius: 5px;
     background-image: url('../../images/trasrh.svg');
 }
+.todo__item__del button[disabled]:hover{
+    background-color: transparent;
+}
 
 .todo__item__del button:hover{
     background-color: #ff5252;

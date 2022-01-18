@@ -13,6 +13,10 @@ function App() {
     const [filteredTodos, setFilteredTodos] = useState(todos);
     const [sortedTodos, setSortedTodos] = useState(filteredTodos);
 
+    // Activate filter button
+    const [isFilterButtonActive, setFilterButtonActive] = useState('all');
+    // Activate sort button
+    const [isSortButtonActive, setSortButtonActive] = useState('');
     // Current page
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -22,16 +26,17 @@ function App() {
     // Set current page
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
-        console.log(pageNumber);
     };
 
     const lastIndex = currentPage * pageSize;
-    const firstIndex = lastIndex - currentPage;
+    const firstIndex = lastIndex - pageSize;
 
     useEffect(() => {
         setFilteredTodos(todos);
         setSortedTodos(sortedTodos);
     }, [todos]);
+
+    //#region FUNK
 
     // addTask
     const addTask = (userInput) => {
@@ -76,10 +81,17 @@ function App() {
     const filterByCompleteStatus = (completeStatus) => {
         if (completeStatus === 'all') {
             setFilteredTodos(todos);
+            setFilterButtonActive('all');
+        } else if (completeStatus === true) {
+            setFilteredTodos([
+                ...todos.filter((item) => item.complete === true),
+            ]);
+            setFilterButtonActive('done');
         } else {
             setFilteredTodos([
-                ...todos.filter((item) => item.complete === completeStatus),
+                ...todos.filter((item) => item.complete === false),
             ]);
+            setFilterButtonActive('undone');
         }
     };
 
@@ -88,6 +100,7 @@ function App() {
         setSortedTodos([
             ...filteredTodos.sort(compareNumbersDes).map((item) => item),
         ]);
+        setSortButtonActive('descending');
     };
 
     // sorting by Ascending
@@ -95,6 +108,7 @@ function App() {
         setSortedTodos([
             ...filteredTodos.sort(compareNumbersAsk).map((item) => item),
         ]);
+        setSortButtonActive('ascending');
     };
 
     // Create date
@@ -110,6 +124,8 @@ function App() {
         return b.sortingIndex - a.sortingIndex;
     }
 
+    //#endregion
+
     return (
         <div className={style.container}>
             <Header task={todos.length} />
@@ -123,17 +139,29 @@ function App() {
                 <div className={styles.todo__options}>
                     <div className={styles.todo__options__left}>
                         <button
-                            className={`${styles.all} ${styles.btn_active_underline}`}
+                            className={
+                                isFilterButtonActive === 'all'
+                                    ? styles.btn_active_underline
+                                    : undefined
+                            }
                             onClick={() => filterByCompleteStatus('all')}>
                             all
                         </button>
                         <button
-                            className={styles.one}
+                            className={
+                                isFilterButtonActive === 'done'
+                                    ? styles.btn_active_underline
+                                    : undefined
+                            }
                             onClick={() => filterByCompleteStatus(true)}>
                             done
                         </button>
                         <button
-                            className={styles.undone}
+                            className={
+                                isSortButtonActive === 'undone'
+                                    ? styles.btn_active_underline
+                                    : undefined
+                            }
                             onClick={() => filterByCompleteStatus(false)}>
                             undone
                         </button>
@@ -145,10 +173,18 @@ function App() {
                         </div>
                         <div className={styles.todo__options_sort}>
                             <button
-                                className={styles.new}
+                                className={`${styles.descending} ${
+                                    isSortButtonActive === 'descending'
+                                        ? styles.btn_active_bg
+                                        : undefined
+                                }`}
                                 onClick={() => filterByDescending()}></button>
                             <button
-                                className={`${styles.last} ${styles.btn_active_bg}`}
+                                className={`${styles.ascending} ${
+                                    isSortButtonActive === 'ascending'
+                                        ? styles.btn_active_bg
+                                        : undefined
+                                }`}
                                 onClick={() => filterByAscending()}></button>
                         </div>
                     </div>
@@ -156,7 +192,7 @@ function App() {
 
                 {/* Items */}
                 <div className={style.todo__items}>
-                    {filteredTodos.map((item) => {
+                    {filteredTodos.slice(firstIndex, lastIndex).map((item) => {
                         return (
                             <TodoItem
                                 item={item}
@@ -170,12 +206,10 @@ function App() {
                 </div>
 
                 <Pagination
-                    todos={todos}
+                    todos={filteredTodos}
                     paginate={paginate}
                     pageSize={pageSize}
                     currentPage={currentPage}
-                    lastIndex={lastIndex}
-                    firstIndex={firstIndex}
                 />
             </div>
         </div>

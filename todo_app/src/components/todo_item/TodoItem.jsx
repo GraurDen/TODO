@@ -67,8 +67,10 @@ const TodoItem = (props) => {
             <div className={styles.todo__item__date}>{props.item.date}</div>
             <div className={styles.todo__item__del}>
                 <button
+                    disabled={checked}
                     type='button'
-                    onClick={() => props.removeTask(props.item.id)}></button>
+                    onClick={() => props.removeTask(props.item.id)}
+                />
             </div>
         </div>
     );
