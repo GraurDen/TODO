@@ -23,6 +23,9 @@ function App() {
     // Tasks number per page
     const [pageSize] = useState(5);
 
+    const [totalItemsCount, setTotalItemsCount] = useState(todos.length);
+    const [totalItemsCount2, setTotalItemsCount2] = useState(totalItemsCount);
+
     // Set current page
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -31,11 +34,19 @@ function App() {
     const lastIndex = currentPage * pageSize;
     const firstIndex = lastIndex - pageSize;
 
+    //totalItemsCount = todos.length;
+
+    // Total count of pages
+    const pagetTotal = Math.ceil(totalItemsCount / pageSize);
+
     useEffect(() => {
         setFilteredTodos(todos);
         setSortedTodos(sortedTodos);
+        setTotalItemsCount(todos.length);
+        setCurrentPage(currentPage);
     }, [todos]);
 
+    console.log('totalItemsCount - ' + totalItemsCount);
     //#region FUNK
 
     // addTask
@@ -77,16 +88,31 @@ function App() {
         ]);
     };
 
+    // Количество тасок
+    const sdsd = (array) => {
+        return array.map((item) => item.complete === true).length;
+    };
+
     // Filter by status
     const filterByCompleteStatus = (completeStatus) => {
         if (completeStatus === 'all') {
             setFilteredTodos(todos);
             setFilterButtonActive('all');
+            setTotalItemsCount(todos.length);
         } else if (completeStatus === true) {
             setFilteredTodos([
                 ...todos.filter((item) => item.complete === true),
             ]);
             setFilterButtonActive('done');
+
+            setTotalItemsCount2(sdsd(filteredTodos));
+            // totalItemsCount2 = filteredTodos.map(
+            //     (item) => item.complete === true
+            // ).length;
+
+            //setCurrentPage(Math.ceil(sdsd(filteredTodos) / pageSize));
+            setCurrentPage(1);
+            console.log('тек стр ' + Math.ceil(sdsd(filteredTodos) / pageSize));
         } else {
             setFilteredTodos([
                 ...todos.filter((item) => item.complete === false),
@@ -206,10 +232,12 @@ function App() {
                 </div>
 
                 <Pagination
-                    todos={filteredTodos}
                     paginate={paginate}
                     pageSize={pageSize}
                     currentPage={currentPage}
+                    lastIndex={lastIndex}
+                    totalItemsCount={totalItemsCount}
+                    pagetTotal={pagetTotal}
                 />
             </div>
         </div>

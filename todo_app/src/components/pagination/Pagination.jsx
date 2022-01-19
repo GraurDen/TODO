@@ -4,25 +4,30 @@ import { useState } from 'react';
 
 const Pagination = (props) => {
     // Tasks total number
-    const totalItemsCount = props.todos.length;
-    // Tasks amount per page
-    const pageSize = props.pageSize;
+    const totalItemsCount = props.totalItemsCount;
+
     // Page-buttons total number
     const pagesArr = [];
     // Total count of pages
-    const pagetTotal = Math.ceil(totalItemsCount / pageSize);
+    const pagetTotal = props.pagetTotal;
 
     for (let i = 1; i <= pagetTotal; i++) {
         pagesArr.push(i);
     }
 
-    //TODO:Implement => If 'pagesArr' is empty then do not display pagination
     return (
         <>
-            {totalItemsCount > 0 && (
+            {totalItemsCount > 5 && (
                 <div className={styles.todo__pagination}>
+                    {/* Button Last page */}
+                    {pagetTotal > 1 && (
+                        <button
+                            className={styles.btnFirst}
+                            onClick={() => props.paginate(1)}>
+                            First
+                        </button>
+                    )}
                     {/* Button 'Prev' */}
-
                     <button
                         className={styles.btnPrev}
                         disabled={props.currentPage <= 1 && true}
@@ -30,7 +35,6 @@ const Pagination = (props) => {
                         {' '}
                         «{' '}
                     </button>
-
                     {/* Pages */}
                     {pagesArr.map((page, index) => (
                         <span
@@ -54,6 +58,14 @@ const Pagination = (props) => {
                         {' '}
                         »{' '}
                     </button>
+                    {/* Button Last page */}
+                    {pagetTotal > 1 && (
+                        <button
+                            className={styles.btnLast}
+                            onClick={() => props.paginate(pagetTotal)}>
+                            Last
+                        </button>
+                    )}
                 </div>
             )}
         </>
