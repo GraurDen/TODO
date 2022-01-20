@@ -6,10 +6,11 @@ const Pagination = (props) => {
     // Tasks total number
     const totalItemsCount = props.totalItemsCount;
 
+    // Total count of pages
+    const pagetTotal = Math.ceil(totalItemsCount / props.pageSize);
+
     // Page-buttons total number
     const pagesArr = [];
-    // Total count of pages
-    const pagetTotal = props.pagetTotal;
 
     for (let i = 1; i <= pagetTotal; i++) {
         pagesArr.push(i);

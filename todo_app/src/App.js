@@ -15,38 +15,46 @@ function App() {
 
     // Activate filter button
     const [isFilterButtonActive, setFilterButtonActive] = useState('all');
-    // Activate sort button
+    // Activat e sort button
     const [isSortButtonActive, setSortButtonActive] = useState('');
     // Current page
     const [currentPage, setCurrentPage] = useState(1);
-
     // Tasks number per page
     const [pageSize] = useState(5);
 
-    const [totalItemsCount, setTotalItemsCount] = useState(todos.length);
-    const [totalItemsCount2, setTotalItemsCount2] = useState(totalItemsCount);
+    const lastIndex = currentPage * pageSize;
+    const firstIndex = lastIndex - pageSize;
 
     // Set current page
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-    const lastIndex = currentPage * pageSize;
-    const firstIndex = lastIndex - pageSize;
-
-    //totalItemsCount = todos.length;
-
-    // Total count of pages
-    const pagetTotal = Math.ceil(totalItemsCount / pageSize);
-
     useEffect(() => {
-        setFilteredTodos(todos);
-        setSortedTodos(sortedTodos);
-        setTotalItemsCount(todos.length);
-        setCurrentPage(currentPage);
-    }, [todos]);
+        // todos => filtered
+        // Filter todos here
+        // Order todos here
+        // Paginate rest todos
+        // Return filtered array
 
-    console.log('totalItemsCount - ' + totalItemsCount);
+        let filteredArray = [];
+        if (isFilterButtonActive === 'all') {
+            filteredArray = todos;
+            setFilteredTodos(todos);
+        }
+        if (isFilterButtonActive === 'Done') {
+            filteredArray = [...todos.filter((item) => item.complete === true)];
+        }
+        if (isFilterButtonActive === 'Undone') {
+            filteredArray = [
+                ...todos.filter((item) => item.complete === false),
+            ];
+        }
+        // if
+        setCurrentPage(Math.ceil(filteredArray.length / 5));
+        setFilteredTodos(filteredArray);
+    }, [todos, isFilterButtonActive, isSortButtonActive, currentPage]);
+
     //#region FUNK
 
     // addTask
@@ -86,39 +94,6 @@ function App() {
                     : { ...item }
             ),
         ]);
-    };
-
-    // Количество тасок
-    const sdsd = (array) => {
-        return array.map((item) => item.complete === true).length;
-    };
-
-    // Filter by status
-    const filterByCompleteStatus = (completeStatus) => {
-        if (completeStatus === 'all') {
-            setFilteredTodos(todos);
-            setFilterButtonActive('all');
-            setTotalItemsCount(todos.length);
-        } else if (completeStatus === true) {
-            setFilteredTodos([
-                ...todos.filter((item) => item.complete === true),
-            ]);
-            setFilterButtonActive('done');
-
-            setTotalItemsCount2(sdsd(filteredTodos));
-            // totalItemsCount2 = filteredTodos.map(
-            //     (item) => item.complete === true
-            // ).length;
-
-            //setCurrentPage(Math.ceil(sdsd(filteredTodos) / pageSize));
-            setCurrentPage(1);
-            console.log('тек стр ' + Math.ceil(sdsd(filteredTodos) / pageSize));
-        } else {
-            setFilteredTodos([
-                ...todos.filter((item) => item.complete === false),
-            ]);
-            setFilterButtonActive('undone');
-        }
     };
 
     // sorting by Descending
@@ -170,25 +145,25 @@ function App() {
                                     ? styles.btn_active_underline
                                     : undefined
                             }
-                            onClick={() => filterByCompleteStatus('all')}>
+                            onClick={() => setFilterButtonActive('all')}>
                             all
                         </button>
                         <button
                             className={
-                                isFilterButtonActive === 'done'
+                                isFilterButtonActive === 'Done'
                                     ? styles.btn_active_underline
                                     : undefined
                             }
-                            onClick={() => filterByCompleteStatus(true)}>
+                            onClick={() => setFilterButtonActive('Done')}>
                             done
                         </button>
                         <button
                             className={
-                                isSortButtonActive === 'undone'
+                                isFilterButtonActive === 'Undone'
                                     ? styles.btn_active_underline
                                     : undefined
                             }
-                            onClick={() => filterByCompleteStatus(false)}>
+                            onClick={() => setFilterButtonActive('Undone')}>
                             undone
                         </button>
                     </div>
@@ -236,8 +211,7 @@ function App() {
                     pageSize={pageSize}
                     currentPage={currentPage}
                     lastIndex={lastIndex}
-                    totalItemsCount={totalItemsCount}
-                    pagetTotal={pagetTotal}
+                    totalItemsCount={filteredTodos.length}
                 />
             </div>
         </div>
