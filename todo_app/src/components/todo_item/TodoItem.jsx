@@ -6,41 +6,41 @@ const TodoItem = (props) => {
     const [checked, setChecked] = useState(props.item.complete);
 
     const [editMode, setEditMode] = useState(false);
-    const [userInput, setUserInput] = useState(props.item.text);
+    const [userInput, setUserInput] = useState(props.item.name);
 
     // Set task to 'Done'
-    const handleChange = () => {
-        setChecked(!checked);
-        props.toggleTask(props.item.id);
-    };
+    // const handleChange = () => {
+    //     setChecked(!checked);
+    //     props.toggleTask(props.item.id);
+    // };
 
     // Toggle task to 'edit mode'
-    const toggleEditMode = () => {
-        setEditMode(!editMode);
-    };
+    // const toggleEditMode = () => {
+    //     setEditMode(!editMode);
+    // };
 
     // Deactivate 'edit mode' and update task name
-    const deactivateEditMode = () => {
-        setEditMode(!editMode);
-        props.editTask(props.item.id, userInput);
-    };
+    // const deactivateEditMode = () => {
+    //     setEditMode(!editMode);
+    //     props.editTask(props.item.id, userInput);
+    // };
 
     // Set new task name
-    const handleTaskName = (e) => {
-        setUserInput(e.currentTarget.value);
-    };
+    // const handleTaskName = (e) => {
+    //     setUserInput(e.currentTarget.value);
+    // };
 
-    const discardChanges = (e) => {
-        let keyCode = e.keyCode;
-        if (keyCode === 27) {
-            setUserInput(props.item.text);
-            e.target.blur();
-        }
-        if (keyCode === 13) {
-            setUserInput(e.currentTarget.value);
-            e.target.blur();
-        }
-    };
+    // const discardChanges = (e) => {
+    //     let keyCode = e.keyCode;
+    //     if (keyCode === 27) {
+    //         setUserInput(props.item.text);
+    //         e.target.blur();
+    //     }
+    //     if (keyCode === 13) {
+    //         setUserInput(e.currentTarget.value);
+    //         e.target.blur();
+    //     }
+    // };
 
     return (
         <div
@@ -50,7 +50,7 @@ const TodoItem = (props) => {
             <div className={styles.todo__item__input}>
                 <input
                     type='checkbox'
-                    onChange={handleChange}
+                    //onChange={handleChange}
                     checked={checked}
                 />
             </div>
@@ -58,7 +58,8 @@ const TodoItem = (props) => {
             {!editMode && (
                 <div
                     className={styles.todo__item__text}
-                    onClick={toggleEditMode}>
+                    //onClick={toggleEditMode}
+                >
                     {userInput}
                 </div>
             )}
@@ -68,11 +69,11 @@ const TodoItem = (props) => {
                     <input
                         type='text'
                         placeholder={userInput}
-                        onBlur={deactivateEditMode}
+                        //onBlur={deactivateEditMode}
                         autoFocus={true}
-                        onChange={handleTaskName}
+                        // onChange={handleTaskName}
                         disabled={checked ? true : false}
-                        onKeyDown={discardChanges}
+                        //onKeyDown={discardChanges}
                     />
                 </div>
             )}
@@ -82,7 +83,7 @@ const TodoItem = (props) => {
                 <button
                     //disabled={checked}
                     type='button'
-                    onClick={() => props.removeTask(props.item.id)}
+                    //onClick={() => props.removeTask(props.item.id)}
                 />
             </div>
         </div>

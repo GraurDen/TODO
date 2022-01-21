@@ -7,6 +7,7 @@ import Pagination from './components/pagination/Pagination.jsx';
 import { useEffect, useState } from 'react';
 // TODO: Удалить после переноса кнопок в отдельную компоненту
 import styles from './components/options/Options.module.css';
+import axios from 'axios';
 
 function App() {
     const [todos, setTodos] = useState([]);
@@ -25,38 +26,46 @@ function App() {
     const lastIndex = currentPage * pageSize;
     const firstIndex = lastIndex - pageSize;
 
+    const [appState, setAppState] = useState([]);
+
     useEffect(() => {
-        let filteredArray = [];
-        let filteredArray2 = [];
+        // let filteredArray = [];
+        // let filteredArray2 = [];
 
-        if (isSortButtonActive === 'descending') {
-            filteredArray2 = todos.sort(compareNumbersDes).map((item) => item);
-        }
-        if (isSortButtonActive === 'ascending') {
-            filteredArray2 = todos.sort(compareNumbersAsk).map((item) => item);
-        }
+        // if (isSortButtonActive === 'descending') {
+        //     filteredArray2 = todos.sort(compareNumbersDes).map((item) => item);
+        // }
+        // if (isSortButtonActive === 'ascending') {
+        //     filteredArray2 = todos.sort(compareNumbersAsk).map((item) => item);
+        // }
 
-        if (isFilterButtonActive === 'all') {
-            filteredArray = todos;
-        }
-        // TODO: Сократить
-        if (isFilterButtonActive === 'Done') {
-            filteredArray = todos.filter((item) => item.complete === true);
-        }
-        if (isFilterButtonActive === 'Undone') {
-            filteredArray = todos.filter((item) => item.complete === false);
-        }
+        // if (isFilterButtonActive === 'all') {
+        //     filteredArray = todos;
+        // }
+        // // TODO: Сократить
+        // if (isFilterButtonActive === 'Done') {
+        //     filteredArray = todos.filter((item) => item.complete === true);
+        // }
+        // if (isFilterButtonActive === 'Undone') {
+        //     filteredArray = todos.filter((item) => item.complete === false);
+        // }
 
-        if (filteredArray.length <= 5) {
-            setCurrentPage(1);
-        }
-        if (filteredArray.length === 0) {
-            setTest('all');
-        }
+        // if (filteredArray.length <= 5) {
+        //     setCurrentPage(1);
+        // }
+        // if (filteredArray.length === 0) {
+        //     setTest('all');
+        // }
 
-        setSortedTodos(filteredArray2);
-        setFilteredTodos(filteredArray);
-    }, [todos, isFilterButtonActive, isSortButtonActive, currentPage]);
+        // setSortedTodos(filteredArray2);
+        // setFilteredTodos(filteredArray);
+        const apiUrl =
+            'https://todo-api-learning.herokuapp.com/v1/tasks/6?pp=20';
+        axios.get(apiUrl).then((res) => {
+            const appState = res.data;
+            setAppState(appState);
+        });
+    }, [setAppState]);
 
     //#region FUNK
     // Set current page
@@ -89,29 +98,29 @@ function App() {
     };
 
     // Remove task
-    const removeTask = (id) => {
-        setTodos([...todos.filter((item) => item.id !== id)]);
-    };
+    // const removeTask = (id) => {
+    //     setTodos([...todos.filter((item) => item.id !== id)]);
+    // };
 
     // Edit task
-    const editTask = (id, userText) => {
-        setTodos([
-            ...todos.map((item) =>
-                item.id === id ? { ...item, text: userText } : { ...item }
-            ),
-        ]);
-    };
+    // const editTask = (id, userText) => {
+    //     setTodos([
+    //         ...todos.map((item) =>
+    //             item.id === id ? { ...item, text: userText } : { ...item }
+    //         ),
+    //     ]);
+    // };
 
     // Toggle task
-    const toggleTask = (id) => {
-        setTodos([
-            ...todos.map((item) =>
-                item.id === id
-                    ? { ...item, complete: !item.complete }
-                    : { ...item }
-            ),
-        ]);
-    };
+    // const toggleTask = (id) => {
+    //     setTodos([
+    //         ...todos.map((item) =>
+    //             item.id === id
+    //                 ? { ...item, complete: !item.complete }
+    //                 : { ...item }
+    //         ),
+    //     ]);
+    // };
 
     // Create date
     const createDate = () => {
@@ -132,7 +141,7 @@ function App() {
         setCurrentPage(1);
     };
     //#endregion
-
+    console.log(appState);
     return (
         <div className={style.container}>
             <Header task={todos.length} />
@@ -199,14 +208,14 @@ function App() {
 
                 {/* Items */}
                 <div className={style.todo__items}>
-                    {filteredTodos.slice(firstIndex, lastIndex).map((item) => {
+                    {appState.map((item) => {
                         return (
                             <TodoItem
                                 item={item}
-                                key={item.id}
-                                removeTask={removeTask}
-                                toggleTask={toggleTask}
-                                editTask={editTask}
+                                //key={item.id}
+                                //removeTask={removeTask}
+                                //toggleTask={toggleTask}
+                                //editTask={editTask}
                             />
                         );
                     })}
