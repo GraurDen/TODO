@@ -30,6 +30,18 @@ const TodoItem = (props) => {
         setUserInput(e.currentTarget.value);
     };
 
+    const discardChanges = (e) => {
+        let keyCode = e.keyCode;
+        if (keyCode === 27) {
+            setUserInput(props.item.text);
+            e.target.blur();
+        }
+        if (keyCode === 13) {
+            setUserInput(e.currentTarget.value);
+            e.target.blur();
+        }
+    };
+
     return (
         <div
             className={
@@ -60,6 +72,7 @@ const TodoItem = (props) => {
                         autoFocus={true}
                         onChange={handleTaskName}
                         disabled={checked ? true : false}
+                        onKeyDown={discardChanges}
                     />
                 </div>
             )}
@@ -67,7 +80,7 @@ const TodoItem = (props) => {
             <div className={styles.todo__item__date}>{props.item.date}</div>
             <div className={styles.todo__item__del}>
                 <button
-                    disabled={checked}
+                    //disabled={checked}
                     type='button'
                     onClick={() => props.removeTask(props.item.id)}
                 />

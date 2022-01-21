@@ -25,37 +25,54 @@ function App() {
     const lastIndex = currentPage * pageSize;
     const firstIndex = lastIndex - pageSize;
 
+    useEffect(() => {
+        let filteredArray = [];
+        let filteredArray2 = [];
+
+        if (isSortButtonActive === 'descending') {
+            filteredArray2 = todos.sort(compareNumbersDes).map((item) => item);
+        }
+        if (isSortButtonActive === 'ascending') {
+            filteredArray2 = todos.sort(compareNumbersAsk).map((item) => item);
+        }
+
+        if (isFilterButtonActive === 'all') {
+            filteredArray = todos;
+        }
+        // TODO: Сократить
+        if (isFilterButtonActive === 'Done') {
+            filteredArray = todos.filter((item) => item.complete === true);
+        }
+        if (isFilterButtonActive === 'Undone') {
+            filteredArray = todos.filter((item) => item.complete === false);
+        }
+
+        if (filteredArray.length <= 5) {
+            setCurrentPage(1);
+        }
+        if (filteredArray.length === 0) {
+            setTest('all');
+        }
+
+        setSortedTodos(filteredArray2);
+        setFilteredTodos(filteredArray);
+    }, [todos, isFilterButtonActive, isSortButtonActive, currentPage]);
+
+    //#region FUNK
     // Set current page
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-    useEffect(() => {
-        // todos => filtered
-        // Filter todos here
-        // Order todos here
-        // Paginate rest todos
-        // Return filtered array
+    // sorting by Descending
+    const filterByDescending = () => {
+        setSortButtonActive('descending');
+    };
 
-        let filteredArray = [];
-        if (isFilterButtonActive === 'all') {
-            filteredArray = todos;
-            setFilteredTodos(todos);
-        }
-        if (isFilterButtonActive === 'Done') {
-            filteredArray = [...todos.filter((item) => item.complete === true)];
-        }
-        if (isFilterButtonActive === 'Undone') {
-            filteredArray = [
-                ...todos.filter((item) => item.complete === false),
-            ];
-        }
-        // if
-        setCurrentPage(Math.ceil(filteredArray.length / 5));
-        setFilteredTodos(filteredArray);
-    }, [todos, isFilterButtonActive, isSortButtonActive, currentPage]);
-
-    //#region FUNK
+    // sorting by Ascending
+    const filterByAscending = () => {
+        setSortButtonActive('ascending');
+    };
 
     // addTask
     const addTask = (userInput) => {
@@ -96,22 +113,6 @@ function App() {
         ]);
     };
 
-    // sorting by Descending
-    const filterByDescending = () => {
-        setSortedTodos([
-            ...filteredTodos.sort(compareNumbersDes).map((item) => item),
-        ]);
-        setSortButtonActive('descending');
-    };
-
-    // sorting by Ascending
-    const filterByAscending = () => {
-        setSortedTodos([
-            ...filteredTodos.sort(compareNumbersAsk).map((item) => item),
-        ]);
-        setSortButtonActive('ascending');
-    };
-
     // Create date
     const createDate = () => {
         return new Date().toLocaleDateString();
@@ -125,6 +126,11 @@ function App() {
         return b.sortingIndex - a.sortingIndex;
     }
 
+    // TODO: Изменить название
+    const setTest = (text) => {
+        setFilterButtonActive(text);
+        setCurrentPage(1);
+    };
     //#endregion
 
     return (
@@ -154,7 +160,7 @@ function App() {
                                     ? styles.btn_active_underline
                                     : undefined
                             }
-                            onClick={() => setFilterButtonActive('Done')}>
+                            onClick={() => setTest('Done')}>
                             done
                         </button>
                         <button
@@ -163,7 +169,7 @@ function App() {
                                     ? styles.btn_active_underline
                                     : undefined
                             }
-                            onClick={() => setFilterButtonActive('Undone')}>
+                            onClick={() => setTest('Undone')}>
                             undone
                         </button>
                     </div>
