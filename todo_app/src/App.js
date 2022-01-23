@@ -26,8 +26,6 @@ function App() {
     const lastIndex = currentPage * pageSize;
     const firstIndex = lastIndex - pageSize;
 
-    const [appState, setAppState] = useState([]);
-
     useEffect(() => {
         // let filteredArray = [];
         // let filteredArray2 = [];
@@ -59,14 +57,25 @@ function App() {
 
         // setSortedTodos(filteredArray2);
         // setFilteredTodos(filteredArray);
-        const apiUrl =
-            'https://todo-api-learning.herokuapp.com/v1/tasks/6?pp=20';
-        axios.get(apiUrl).then((res) => {
-            const appState = res.data;
-            setAppState(appState);
-        });
-    }, [setAppState]);
+        console.log('render useEffect');
+    }, []);
 
+    const getTodos = () => {
+        if (todos.length === 0) {
+            const apiUrl =
+                'https://todo-api-learning.herokuapp.com/v1/tasks/6?pp=20';
+            axios.get(apiUrl).then((res) => {
+                const data = res.data;
+                setTodos(data);
+            });
+        }
+    };
+
+    const test = (data) => {
+        setTodos(data);
+    };
+
+    console.log('todos >', todos);
     //#region FUNK
     // Set current page
     const paginate = (pageNumber) => {
@@ -103,13 +112,13 @@ function App() {
     // };
 
     // Edit task
-    // const editTask = (id, userText) => {
-    //     setTodos([
-    //         ...todos.map((item) =>
-    //             item.id === id ? { ...item, text: userText } : { ...item }
-    //         ),
-    //     ]);
-    // };
+    const editTask = (id, userText) => {
+        setTodos([
+            ...todos.map((item) =>
+                item.id === id ? { ...item, text: userText } : { ...item }
+            ),
+        ]);
+    };
 
     // Toggle task
     // const toggleTask = (id) => {
@@ -141,7 +150,6 @@ function App() {
         setCurrentPage(1);
     };
     //#endregion
-    console.log(appState);
     return (
         <div className={style.container}>
             <Header task={todos.length} />
@@ -160,7 +168,7 @@ function App() {
                                     ? styles.btn_active_underline
                                     : undefined
                             }
-                            onClick={() => setFilterButtonActive('all')}>
+                            onClick={() => getTodos()}>
                             all
                         </button>
                         <button
@@ -208,11 +216,11 @@ function App() {
 
                 {/* Items */}
                 <div className={style.todo__items}>
-                    {appState.map((item) => {
+                    {todos.map((item) => {
                         return (
                             <TodoItem
                                 item={item}
-                                //key={item.id}
+                                key={item.uuid}
                                 //removeTask={removeTask}
                                 //toggleTask={toggleTask}
                                 //editTask={editTask}
