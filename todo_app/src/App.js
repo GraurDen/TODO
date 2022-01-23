@@ -11,12 +11,12 @@ import styles from './components/options/Options.module.css';
 function App() {
     const [todos, setTodos] = useState([]);
     const [filteredTodos, setFilteredTodos] = useState(todos);
-    const [sortedTodos, setSortedTodos] = useState(filteredTodos);
+    const [orderedTodos, setOrderedTodos] = useState(filteredTodos);
 
     // Activate filter button
-    const [isFilterButtonActive, setFilterButtonActive] = useState('all');
-    // Activat e sort button
-    const [isSortButtonActive, setSortButtonActive] = useState('');
+    const [filterButtonBy, setFilterButtonBy] = useState('all');
+    // Activate order button
+    const [orderBy, setOrderBy] = useState('');
     // Current page
     const [currentPage, setCurrentPage] = useState(1);
     // Tasks number per page
@@ -27,36 +27,33 @@ function App() {
 
     useEffect(() => {
         let filteredArray = [];
-        let filteredArray2 = [];
+        let orderedArray = [];
 
-        if (isSortButtonActive === 'descending') {
-            filteredArray2 = todos.sort(compareNumbersDes).map((item) => item);
+        if (orderBy === 'descending') {
+            orderedArray = todos.sort(orderByAsc).map((item) => item);
         }
-        if (isSortButtonActive === 'ascending') {
-            filteredArray2 = todos.sort(compareNumbersAsk).map((item) => item);
+        if (orderBy === 'ascending') {
+            orderedArray = todos.sort(orderByDesc).map((item) => item);
         }
-
-        if (isFilterButtonActive === 'all') {
+        if (filterButtonBy === 'all') {
             filteredArray = todos;
         }
-        // TODO: Сократить
-        if (isFilterButtonActive === 'Done') {
+        if (filterButtonBy === 'Done') {
             filteredArray = todos.filter((item) => item.complete === true);
         }
-        if (isFilterButtonActive === 'Undone') {
+        if (filterButtonBy === 'Undone') {
             filteredArray = todos.filter((item) => item.complete === false);
         }
-
         if (filteredArray.length <= 5) {
             setCurrentPage(1);
         }
         if (filteredArray.length === 0) {
-            setTest('all');
+            onSetFilterBy('all');
         }
 
-        setSortedTodos(filteredArray2);
+        setOrderedTodos(orderedArray);
         setFilteredTodos(filteredArray);
-    }, [todos, isFilterButtonActive, isSortButtonActive, currentPage]);
+    }, [todos, filterButtonBy, orderBy, currentPage]);
 
     //#region FUNK
     // Set current page
@@ -64,14 +61,9 @@ function App() {
         setCurrentPage(pageNumber);
     };
 
-    // sorting by Descending
-    const filterByDescending = () => {
-        setSortButtonActive('descending');
-    };
-
-    // sorting by Ascending
-    const filterByAscending = () => {
-        setSortButtonActive('ascending');
+    // Order by...
+    const onOrderBy = (order) => {
+        setOrderBy(order);
     };
 
     // addTask
@@ -115,20 +107,18 @@ function App() {
 
     // Create date
     const createDate = () => {
-        return new Date().toLocaleDateString();
+        return new Date().toLocaleString();
     };
 
-    // Sorting functions
-    function compareNumbersAsk(a, b) {
+    function orderByAsc(a, b) {
         return a.sortingIndex - b.sortingIndex;
     }
-    function compareNumbersDes(a, b) {
+    function orderByDesc(a, b) {
         return b.sortingIndex - a.sortingIndex;
     }
 
-    // TODO: Изменить название
-    const setTest = (text) => {
-        setFilterButtonActive(text);
+    const onSetFilterBy = (text) => {
+        setFilterButtonBy(text);
         setCurrentPage(1);
     };
     //#endregion
@@ -141,61 +131,13 @@ function App() {
             <div className={style.todo}>
                 <AddTask addTask={addTask} />
 
-                {/* <Options /> */}
-
-                <div className={styles.todo__options}>
-                    <div className={styles.todo__options__left}>
-                        <button
-                            className={
-                                isFilterButtonActive === 'all'
-                                    ? styles.btn_active_underline
-                                    : undefined
-                            }
-                            onClick={() => setFilterButtonActive('all')}>
-                            all
-                        </button>
-                        <button
-                            className={
-                                isFilterButtonActive === 'Done'
-                                    ? styles.btn_active_underline
-                                    : undefined
-                            }
-                            onClick={() => setTest('Done')}>
-                            done
-                        </button>
-                        <button
-                            className={
-                                isFilterButtonActive === 'Undone'
-                                    ? styles.btn_active_underline
-                                    : undefined
-                            }
-                            onClick={() => setTest('Undone')}>
-                            undone
-                        </button>
-                    </div>
-
-                    <div className={styles.todo__options__right}>
-                        <div className={styles.todo__options__name}>
-                            Sort by Date
-                        </div>
-                        <div className={styles.todo__options_sort}>
-                            <button
-                                className={`${styles.descending} ${
-                                    isSortButtonActive === 'descending'
-                                        ? styles.btn_active_bg
-                                        : undefined
-                                }`}
-                                onClick={() => filterByDescending()}></button>
-                            <button
-                                className={`${styles.ascending} ${
-                                    isSortButtonActive === 'ascending'
-                                        ? styles.btn_active_bg
-                                        : undefined
-                                }`}
-                                onClick={() => filterByAscending()}></button>
-                        </div>
-                    </div>
-                </div>
+                {/* Кнопки */}
+                <Options
+                    filterButtonBy={filterButtonBy}
+                    orderBy={orderBy}
+                    onOrderBy={onOrderBy}
+                    onSetFilterBy={onSetFilterBy}
+                />
 
                 {/* Items */}
                 <div className={style.todo__items}>
