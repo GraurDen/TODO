@@ -3,10 +3,10 @@ import styles from './TodoItem.module.css';
 import { useState, useEffect } from 'react';
 
 const TodoItem = (props) => {
-    const [checked, setChecked] = useState(props.item.complete);
+    const [checked, setChecked] = useState(props.item.done);
 
     const [editMode, setEditMode] = useState(false);
-    const [userInput, setUserInput] = useState(props.item.text);
+    const [userInput, setUserInput] = useState(props.item.name);
 
     // Set task to 'Done'
     const handleChange = () => {

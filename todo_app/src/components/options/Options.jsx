@@ -15,15 +15,15 @@ const Options = (props) => {
                     onSetFilterBy={onSetFilterBy}
                 />
                 <FilterButton
-                    name={'Done'}
+                    name={'done'}
                     filterButtonBy={filterButtonBy}
-                    filterBy={'Done'}
+                    filterBy={'done'}
                     onSetFilterBy={onSetFilterBy}
                 />
                 <FilterButton
-                    name={'Undone'}
+                    name={'undone'}
                     filterButtonBy={filterButtonBy}
-                    filterBy={'Undone'}
+                    filterBy={'undone'}
                     onSetFilterBy={onSetFilterBy}
                 />
             </div>
@@ -33,18 +33,16 @@ const Options = (props) => {
                 <div className={styles.todo__options_sort}>
                     <button
                         className={`${styles.descending} ${
-                            orderBy === 'descending'
+                            orderBy === 'desc'
                                 ? styles.btn_active_bg
                                 : undefined
                         }`}
-                        onClick={() => onOrderBy('descending')}></button>
+                        onClick={() => onOrderBy('desc')}></button>
                     <button
                         className={`${styles.ascending} ${
-                            orderBy === 'ascending'
-                                ? styles.btn_active_bg
-                                : undefined
+                            orderBy === 'asc' ? styles.btn_active_bg : undefined
                         }`}
-                        onClick={() => onOrderBy('ascending')}></button>
+                        onClick={() => onOrderBy('asc')}></button>
                 </div>
             </div>
         </div>
