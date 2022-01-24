@@ -1,24 +1,48 @@
 import React from 'react';
 import styles from './Options.module.css';
+import FilterButton from '../buttons/FilterButton.jsx';
 
-const Options = () => {
+const Options = (props) => {
+    const { filterButtonBy, orderBy, onOrderBy, onSetFilterBy } = props;
+
     return (
         <div className={styles.todo__options}>
             <div className={styles.todo__options__left}>
-                <button
-                    className={`${styles.all} ${styles.btn_active_underline}`}>
-                    all
-                </button>
-                <button className={styles.one}>done</button>
-                <button className={styles.undone}>undone</button>
+                <FilterButton
+                    name={'all'}
+                    filterButtonBy={filterButtonBy}
+                    filterBy={'all'}
+                    onSetFilterBy={onSetFilterBy}
+                />
+                <FilterButton
+                    name={'done'}
+                    filterButtonBy={filterButtonBy}
+                    filterBy={'done'}
+                    onSetFilterBy={onSetFilterBy}
+                />
+                <FilterButton
+                    name={'undone'}
+                    filterButtonBy={filterButtonBy}
+                    filterBy={'undone'}
+                    onSetFilterBy={onSetFilterBy}
+                />
             </div>
 
             <div className={styles.todo__options__right}>
                 <div className={styles.todo__options__name}>Sort by Date</div>
                 <div className={styles.todo__options_sort}>
-                    <button className={styles.new}></button>
                     <button
-                        className={`${styles.last} ${styles.btn_active_bg}`}></button>
+                        className={`${styles.descending} ${
+                            orderBy === 'desc'
+                                ? styles.btn_active_bg
+                                : undefined
+                        }`}
+                        onClick={() => onOrderBy('desc')}></button>
+                    <button
+                        className={`${styles.ascending} ${
+                            orderBy === 'asc' ? styles.btn_active_bg : undefined
+                        }`}
+                        onClick={() => onOrderBy('asc')}></button>
                 </div>
             </div>
         </div>
