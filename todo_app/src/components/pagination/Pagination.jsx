@@ -4,10 +4,10 @@ import { useState } from 'react';
 
 const Pagination = (props) => {
     // Tasks total number
-    const totalItemsCount = props.totalItemsCount;
+    const { totalItemsCount, pageSize, paginate, currentPage } = props;
 
     // Total count of pages
-    const pagetTotal = Math.ceil(totalItemsCount / props.pageSize);
+    const pagetTotal = Math.ceil(totalItemsCount / pageSize);
 
     // Page-buttons total number
     const pagesArr = [];
@@ -24,15 +24,15 @@ const Pagination = (props) => {
                     {pagetTotal > 1 && (
                         <button
                             className={styles.btnFirst}
-                            onClick={() => props.paginate(1)}>
+                            onClick={() => paginate(1)}>
                             First
                         </button>
                     )}
                     {/* Button 'Prev' */}
                     <button
                         className={styles.btnPrev}
-                        disabled={props.currentPage <= 1 && true}
-                        onClick={() => props.paginate(props.currentPage - 1)}>
+                        disabled={currentPage <= 1 && true}
+                        onClick={() => paginate(currentPage - 1)}>
                         {' '}
                         «{' '}
                     </button>
@@ -40,13 +40,13 @@ const Pagination = (props) => {
                     {pagesArr.map((page, index) => (
                         <span
                             className={
-                                props.currentPage === page
+                                currentPage === page
                                     ? styles.paginationSelected
                                     : undefined
                             }
                             key={index}
                             onClick={() => {
-                                props.paginate(page);
+                                paginate(page);
                             }}>
                             {page}
                         </span>
@@ -54,8 +54,8 @@ const Pagination = (props) => {
                     {/* Button 'Next' */}
                     <button
                         className={styles.btnNext}
-                        disabled={props.currentPage === pagetTotal && true}
-                        onClick={() => props.paginate(props.currentPage + 1)}>
+                        disabled={currentPage === pagetTotal && true}
+                        onClick={() => paginate(currentPage + 1)}>
                         {' '}
                         »{' '}
                     </button>
@@ -63,7 +63,7 @@ const Pagination = (props) => {
                     {pagetTotal > 1 && (
                         <button
                             className={styles.btnLast}
-                            onClick={() => props.paginate(pagetTotal)}>
+                            onClick={() => paginate(pagetTotal)}>
                             Last
                         </button>
                     )}

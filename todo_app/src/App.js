@@ -12,47 +12,44 @@ import axios from 'axios';
 function App() {
     const [todos, setTodos] = useState([]);
     const [filteredTodos, setFilteredTodos] = useState(todos);
-    //const [orderedTodos, setOrderedTodos] = useState(filteredTodos);
 
     // Activate filter button
     const [filterButtonBy, setFilterButtonBy] = useState('all');
-
     // Activate order button
     const [orderBy, setOrderBy] = useState('ask');
     // Current page
     const [currentPage, setCurrentPage] = useState(1);
     // Tasks number per page
     const [pageSize, setPageSize] = useState(5);
+    // Tasks total
+    const [totalItemsCount, setTotalItemsCount] = useState(0);
 
-    const lastIndex = currentPage * pageSize;
-    const firstIndex = lastIndex - pageSize;
+    const baseURL = 'https://todo-api-learning.herokuapp.com/v1';
+    const userID = 6;
 
     useEffect(() => {
         getTasks();
     }, [filterButtonBy, orderBy, currentPage, todos]);
 
-    const baseURL = 'https://todo-api-learning.herokuapp.com/v1';
-    const userID = 6;
-    const apiUrl = `${baseURL}/tasks/${userID}`;
+    //#region FUNK
 
+    // Get all tasks
     const getTasks = async () => {
         try {
-            const response = await axios.get(apiUrl, {
+            const response = await axios.get(`${baseURL}/tasks/${userID}`, {
                 params: {
                     pp: pageSize,
                     page: currentPage,
-                    filterBy: filterButtonBy,
+                    filterBy: filterButtonBy !== '' ? filterButtonBy : '',
                     order: orderBy,
                 },
             });
             setFilteredTodos(response.data.tasks);
+            setTotalItemsCount(response.data.count);
         } catch (error) {
             console.log(error);
         }
     };
-    console.log('filterButtonBy >> ', filterButtonBy);
-    console.log('filteredTodos >>> ', filteredTodos);
-    //#region FUNK
     // Set current page
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -66,7 +63,7 @@ function App() {
     // addTask
     const addTask = async (userInput) => {
         try {
-            const response = await axios.post(apiUrl, {
+            const response = await axios.post(`${baseURL}/task/${userID}`, {
                 name: userInput,
                 done: false,
             });
@@ -90,24 +87,30 @@ function App() {
     };
 
     // Edit task
-    // const editTask = (id, userText) => {
-    //     setTodos([
-    //         ...todos.map((item) =>
-    //             item.id === id ? { ...item, text: userText } : { ...item }
-    //         ),
-    //     ]);
-    // };
+    const editTask = async (uuid, userText) => {
+        try {
+            const response = await axios.patch(
+                `${baseURL}/task/${userID}/${uuid}`,
+                { name: userText }
+            );
+            setTodos([todos]);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     // Toggle task
-    // const toggleTask = (id) => {
-    //     setTodos([
-    //         ...todos.map((item) =>
-    //             item.id === id
-    //                 ? { ...item, complete: !item.complete }
-    //                 : { ...item }
-    //         ),
-    //     ]);
-    // };
+    const toggleTask = async (uuid, status) => {
+        try {
+            const response = await axios.patch(
+                `${baseURL}/task/${userID}/${uuid}`,
+                { done: status }
+            );
+            setTodos([todos]);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const onSetFilterBy = (text) => {
         setFilterButtonBy(text);
@@ -116,7 +119,7 @@ function App() {
     //#endregion
     return (
         <div className={style.container}>
-            <Header task={todos.length} />
+            <Header task={totalItemsCount} />
 
             {/* Content */}
             <div className={style.todo}>
@@ -132,14 +135,14 @@ function App() {
 
                 {/* Items */}
                 <div className={style.todo__items}>
-                    {filteredTodos.slice(firstIndex, lastIndex).map((item) => {
+                    {filteredTodos.map((item) => {
                         return (
                             <TodoItem
                                 item={item}
                                 key={item.uuid}
                                 removeTask={removeTask}
-                                // toggleTask={toggleTask}
-                                // editTask={editTask}
+                                toggleTask={toggleTask}
+                                editTask={editTask}
                             />
                         );
                     })}
@@ -149,8 +152,7 @@ function App() {
                     paginate={paginate}
                     pageSize={pageSize}
                     currentPage={currentPage}
-                    lastIndex={lastIndex}
-                    //totalItemsCount={filteredTodos.length}
+                    totalItemsCount={totalItemsCount}
                 />
             </div>
         </div>
