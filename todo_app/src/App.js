@@ -5,8 +5,6 @@ import Options from './components/options/Options.jsx';
 import TodoItem from './components/todo_item/TodoItem.jsx';
 import Pagination from './components/pagination/Pagination.jsx';
 import { useEffect, useState } from 'react';
-// TODO: Удалить после переноса кнопок в отдельную компоненту
-import styles from './components/options/Options.module.css';
 import axios from 'axios';
 
 function App() {
@@ -29,7 +27,9 @@ function App() {
 
     useEffect(() => {
         getTasks();
-    }, [filterButtonBy, orderBy, currentPage, todos]);
+
+        totalItemsCount <= 5 && setCurrentPage(1);
+    }, [filterButtonBy, orderBy, currentPage, todos, totalItemsCount]);
 
     //#region FUNK
 
@@ -86,6 +86,9 @@ function App() {
         }
     };
 
+    console.log('totalItemsCount >>> ', totalItemsCount);
+    console.log('currentPage >>> ', currentPage);
+
     // Edit task
     const editTask = async (uuid, userText) => {
         try {
@@ -115,7 +118,6 @@ function App() {
 
     const onSetFilterBy = (text) => {
         setFilterButtonBy(text);
-        //setCurrentPage(1);
     };
     //#endregion
     return (
