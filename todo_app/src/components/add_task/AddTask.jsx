@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styles from './AddTask.module.css';
+import { Form, Input, Button } from 'antd';
+import 'antd/dist/antd.css';
 
 const Add_task = (props) => {
     // Initial State
@@ -12,7 +14,6 @@ const Add_task = (props) => {
 
     // Add task and clear input value
     const hanldeSubmit = (e) => {
-        e.preventDefault();
         props.addTask(userInput);
         setUserInput('');
     };
@@ -25,23 +26,28 @@ const Add_task = (props) => {
     };
 
     return (
-        <form onSubmit={hanldeSubmit}>
-            <div className={styles.todo__input}>
-                <div className={styles.todo__task}>
-                    <input
-                        type='text'
-                        onChange={handleChange}
-                        value={userInput}
-                        onKeyDown={handleKeyPress}
-                        placeholder='I want to...'
-                        autoFocus={true}
-                    />
-                </div>
-                <div className={styles.todo__button}>
-                    <button>Add</button>
-                </div>
-            </div>
-        </form>
+        <Form
+            onFinish={hanldeSubmit}
+            name='basic'
+            layout='inline'
+            style={{ width: '100%', marginBottom: '20px' }}>
+            <Form.Item style={{ flex: 1 }}>
+                <Input
+                    name='content'
+                    type='text'
+                    onChange={handleChange}
+                    value={userInput}
+                    onKeyDown={handleKeyPress}
+                    placeholder='I want to...'
+                    autoFocus={true}
+                />
+            </Form.Item>
+            <Form.Item style={{ margin: 0 }}>
+                <Button type='primary' htmlType='submit'>
+                    Add
+                </Button>
+            </Form.Item>
+        </Form>
     );
 };
 

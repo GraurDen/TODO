@@ -27,7 +27,6 @@ function App() {
 
     useEffect(() => {
         getTasks();
-
         totalItemsCount <= 5 && setCurrentPage(1);
     }, [filterButtonBy, orderBy, currentPage, todos, totalItemsCount]);
 
@@ -86,9 +85,6 @@ function App() {
         }
     };
 
-    console.log('totalItemsCount >>> ', totalItemsCount);
-    console.log('currentPage >>> ', currentPage);
-
     // Edit task
     const editTask = async (uuid, userText) => {
         try {
@@ -116,6 +112,7 @@ function App() {
         }
     };
 
+    // Set filter
     const onSetFilterBy = (text) => {
         setFilterButtonBy(text);
     };
@@ -151,6 +148,7 @@ function App() {
                     })}
                 </div>
 
+                {/* Pagination */}
                 <Pagination
                     paginate={paginate}
                     pageSize={pageSize}

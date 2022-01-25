@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './Pagination.module.css';
-import { useState } from 'react';
 
 const Pagination = (props) => {
     // Tasks total number
