@@ -82,7 +82,7 @@ const TodoItem = (props) => {
                 <button
                     //disabled={checked}
                     type='button'
-                    onClick={() => props.removeTask(props.item.id)}
+                    onClick={() => props.removeTask(props.item.uuid)}
                 />
             </div>
         </div>

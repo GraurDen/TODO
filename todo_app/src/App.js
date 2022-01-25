@@ -12,7 +12,7 @@ import axios from 'axios';
 function App() {
     const [todos, setTodos] = useState([]);
     const [filteredTodos, setFilteredTodos] = useState(todos);
-    const [orderedTodos, setOrderedTodos] = useState(filteredTodos);
+    //const [orderedTodos, setOrderedTodos] = useState(filteredTodos);
 
     // Activate filter button
     const [filterButtonBy, setFilterButtonBy] = useState('all');
@@ -27,61 +27,31 @@ function App() {
     const lastIndex = currentPage * pageSize;
     const firstIndex = lastIndex - pageSize;
 
-    const baseURL = 'https://todo-api-learning.herokuapp.com/v1';
-
     useEffect(() => {
-        let filteredArray = [];
-        let orderedArray = [];
+        getTasks();
+    }, [filterButtonBy, orderBy, currentPage, todos]);
 
-        const apiUrl = `${baseURL}/tasks/6`;
+    const baseURL = 'https://todo-api-learning.herokuapp.com/v1';
+    const userID = 6;
+    const apiUrl = `${baseURL}/tasks/${userID}`;
 
-        axios
-            .get(apiUrl, {
+    const getTasks = async () => {
+        try {
+            const response = await axios.get(apiUrl, {
                 params: {
                     pp: pageSize,
                     page: currentPage,
                     filterBy: filterButtonBy,
                     order: orderBy,
                 },
-            })
-            .then((resp) => {
-                const allTodos = resp.data.tasks;
-                setTodos(allTodos);
             });
-
-        // // *
-        // if (filterButtonBy === 'all') {
-        //     filteredArray = todos;
-        // }
-        // // *
-        // if (filterButtonBy === 'done') {
-        //     filteredArray = todos;
-        // }
-        // // *
-        // if (filterButtonBy === 'undone') {
-        //     filteredArray = todos;
-        // }
-
-        // if (orderBy === 'descending') {
-        //     orderedArray = todos;
-        // }
-
-        // if (orderBy === 'ascending') {
-        //     orderedArray = todos;
-        // }
-
-        // if (filteredArray.length <= 5) {
-        //     setCurrentPage(1);
-        // }
-        // if (filteredArray.length === 0) {
-        //     onSetFilterBy('all');
-        // }
-
-        // setOrderedTodos(orderedArray);
-        // setFilteredTodos(todos);
-    }, [filterButtonBy, orderBy, currentPage]);
-
+            setFilteredTodos(response.data.tasks);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     console.log('filterButtonBy >> ', filterButtonBy);
+    console.log('filteredTodos >>> ', filteredTodos);
     //#region FUNK
     // Set current page
     const paginate = (pageNumber) => {
@@ -94,16 +64,30 @@ function App() {
     };
 
     // addTask
-    const addTask = (userInput) => {
-        if (userInput !== '') {
-            axios.post(`${baseURL}/task/6`, { name: userInput, done: false });
+    const addTask = async (userInput) => {
+        try {
+            const response = await axios.post(apiUrl, {
+                name: userInput,
+                done: false,
+            });
+            console.log(response.data);
+            setTodos([todos]);
+        } catch (error) {
+            console.log(error);
         }
     };
 
     // Remove task
-    // const removeTask = (id) => {
-    //     setTodos([...todos.filter((item) => item.id !== id)]);
-    // };
+    const removeTask = async (uuid) => {
+        try {
+            const response = await axios.delete(
+                `${baseURL}/task/${userID}/${uuid}`
+            );
+            setTodos([todos]);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     // Edit task
     // const editTask = (id, userText) => {
@@ -149,12 +133,12 @@ function App() {
 
                 {/* Items */}
                 <div className={style.todo__items}>
-                    {todos.slice(firstIndex, lastIndex).map((item) => {
+                    {filteredTodos.slice(firstIndex, lastIndex).map((item) => {
                         return (
                             <TodoItem
                                 item={item}
                                 key={item.uuid}
-                                // removeTask={removeTask}
+                                removeTask={removeTask}
                                 // toggleTask={toggleTask}
                                 // editTask={editTask}
                             />
@@ -167,7 +151,7 @@ function App() {
                     pageSize={pageSize}
                     currentPage={currentPage}
                     lastIndex={lastIndex}
-                    totalItemsCount={filteredTodos.length}
+                    //totalItemsCount={filteredTodos.length}
                 />
             </div>
         </div>
