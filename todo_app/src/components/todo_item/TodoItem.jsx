@@ -5,17 +5,13 @@ import { useState, useEffect } from 'react';
 const TodoItem = (props) => {
     const { item, editTask, removeTask, toggleTask } = props;
 
-    const [checked, setChecked] = useState(item.done);
     const [editMode, setEditMode] = useState(false);
     const [userInput, setUserInput] = useState(item.name);
 
     // Change task status
     const handleChange = () => {
-        setChecked(!checked);
-        toggleTask(item.uuid, checked);
+        toggleTask(item.uuid, !item.done);
     };
-
-    console.log('checked >>> ', checked);
 
     // Toggle task to 'edit mode'
     const toggleEditMode = () => {
@@ -33,6 +29,7 @@ const TodoItem = (props) => {
         setUserInput(e.currentTarget.value);
     };
 
+    // Discard changes input 'onBlur' and on 'Esc' click
     const discardChanges = (e) => {
         let keyCode = e.keyCode;
         if (keyCode === 27) {
@@ -48,14 +45,14 @@ const TodoItem = (props) => {
     return (
         <div
             className={
-                checked ? styles.todo__item__completed : styles.todo__item
+                item.done ? styles.todo__item__completed : styles.todo__item
             }>
             {/* Checkbox */}
             <div className={styles.todo__item__input}>
                 <input
                     type='checkbox'
                     onChange={handleChange}
-                    checked={checked}
+                    checked={item.done}
                 />
             </div>
 
@@ -76,7 +73,7 @@ const TodoItem = (props) => {
                         onBlur={deactivateEditMode}
                         autoFocus={true}
                         onChange={handleTaskName}
-                        disabled={checked ? true : false}
+                        disabled={item.done ? true : false}
                         onKeyDown={discardChanges}
                     />
                 </div>

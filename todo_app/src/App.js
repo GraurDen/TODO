@@ -107,6 +107,7 @@ function App() {
                 { done: status }
             );
             setTodos([todos]);
+            console.log(' status >>', status);
         } catch (error) {
             console.log(error);
         }
@@ -114,7 +115,7 @@ function App() {
 
     const onSetFilterBy = (text) => {
         setFilterButtonBy(text);
-        setCurrentPage(1);
+        //setCurrentPage(1);
     };
     //#endregion
     return (
