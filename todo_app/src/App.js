@@ -114,7 +114,6 @@ function App() {
         setCurrentPage(1);
     };
     //#endregion
-
     return (
         <div className={style.container}>
             <Header task={todos.length} />
