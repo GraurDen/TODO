@@ -53,12 +53,10 @@ function App() {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
     // Order by...
     const onOrderBy = (order) => {
         setOrderBy(order);
     };
-
     // addTask
     const addTask = async (userInput) => {
         try {
@@ -72,7 +70,6 @@ function App() {
             console.log(error);
         }
     };
-
     // Remove task
     const removeTask = async (uuid) => {
         try {
@@ -84,7 +81,6 @@ function App() {
             console.log(error);
         }
     };
-
     // Edit task
     const editTask = async (uuid, userText) => {
         try {
@@ -106,15 +102,14 @@ function App() {
                 { done: status }
             );
             setTodos([todos]);
-            console.log(' status >>', status);
         } catch (error) {
             console.log(error);
         }
     };
 
     // Set filter
-    const onSetFilterBy = (text) => {
-        setFilterButtonBy(text);
+    const onSetFilterBy = (status) => {
+        setFilterButtonBy(status);
     };
     //#endregion
     return (
