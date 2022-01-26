@@ -121,12 +121,7 @@ function App() {
                 <AddTask addTask={addTask} />
 
                 {/* Кнопки */}
-                <Options
-                    filterButtonBy={filterButtonBy}
-                    orderBy={orderBy}
-                    onOrderBy={onOrderBy}
-                    onSetFilterBy={onSetFilterBy}
-                />
+                <Options onOrderBy={onOrderBy} onSetFilterBy={onSetFilterBy} />
 
                 {/* Items */}
                 <div className={style.todo__items}>
