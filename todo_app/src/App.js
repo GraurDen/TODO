@@ -3,7 +3,7 @@ import Header from './components/header/Header.jsx';
 import AddTask from './components/add_task/AddTask.jsx';
 import Options from './components/options/Options.jsx';
 import TodoItem from './components/todo_item/TodoItem.jsx';
-import Pagination from './components/pagination/Pagination.jsx';
+import Paginate from './components/pagination/Paginate.jsx';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -139,7 +139,7 @@ function App() {
                 </div>
 
                 {/* Pagination */}
-                <Pagination
+                <Paginate
                     paginate={paginate}
                     pageSize={pageSize}
                     currentPage={currentPage}
