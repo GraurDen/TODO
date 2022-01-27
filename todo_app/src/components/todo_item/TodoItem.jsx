@@ -92,7 +92,9 @@ const TodoItem = (props) => {
                         textAlign: 'right',
                     }}
                     type='secondary'>
-                    {/* {new Date(item.createdAt).getTime} */}
+                    {new Date(item.createdAt)
+                        .toLocaleString('ru-RU', { hour12: false })
+                        .split(' ')}
                 </Text>
 
                 {/* Delete */}
