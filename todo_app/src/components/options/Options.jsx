@@ -28,10 +28,12 @@ const Options = (props) => {
                     </Text>
                     <Button
                         icon={<ArrowDownOutlined />}
-                        onClick={() => onOrderBy('asc')}></Button>
+                        onClick={() => onOrderBy('asc')}
+                    />
                     <Button
                         icon={<ArrowUpOutlined />}
-                        onClick={() => onOrderBy('desc')}></Button>
+                        onClick={() => onOrderBy('desc')}
+                    />
                 </Col>
             </Row>
         </div>

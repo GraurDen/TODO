@@ -6,6 +6,7 @@ import TodoItem from './components/todo_item/TodoItem.jsx';
 import Paginate from './components/pagination/Paginate.jsx';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { message } from 'antd';
 
 function App() {
     const [todos, setTodos] = useState([]);
@@ -27,27 +28,31 @@ function App() {
 
     useEffect(() => {
         getTasks();
-        totalItemsCount <= 5 && setCurrentPage(1);
     }, [filterButtonBy, orderBy, currentPage, todos, totalItemsCount]);
 
     //#region FUNK
 
+    axios.interceptors.response.use(
+        (response) => {
+            return response;
+        },
+        (error) => {
+            message.info(error.response.data.message);
+        }
+    );
+
     // Get all tasks
     const getTasks = async () => {
-        try {
-            const response = await axios.get(`${baseURL}/tasks/${userID}`, {
-                params: {
-                    pp: pageSize,
-                    page: currentPage,
-                    filterBy: filterButtonBy !== '' ? filterButtonBy : '',
-                    order: orderBy,
-                },
-            });
-            setFilteredTodos(response.data.tasks);
-            setTotalItemsCount(response.data.count);
-        } catch (error) {
-            console.log(error);
-        }
+        const response = await axios.get(`${baseURL}/tasks/${userID}`, {
+            params: {
+                pp: pageSize,
+                page: currentPage,
+                filterBy: filterButtonBy !== '' ? filterButtonBy : '',
+                order: orderBy,
+            },
+        });
+        setFilteredTodos(response.data.tasks);
+        setCurrentPage(Math.ceil(response.data.count / pageSize));
     };
     // Set current page
     const paginate = (pageNumber) => {
@@ -59,52 +64,35 @@ function App() {
     };
     // addTask
     const addTask = async (userInput) => {
-        try {
-            const response = await axios.post(`${baseURL}/task/${userID}`, {
-                name: userInput,
-                done: false,
-            });
-            console.log(response.data);
-            setTodos([todos]);
-        } catch (error) {
-            console.log(error);
-        }
+        const response = await axios.post(`${baseURL}/task/${userID}`, {
+            name: userInput,
+            done: false,
+        });
+        setTodos([todos]);
     };
     // Remove task
     const removeTask = async (uuid) => {
-        try {
-            const response = await axios.delete(
-                `${baseURL}/task/${userID}/${uuid}`
-            );
-            setTodos([todos]);
-        } catch (error) {
-            console.log(error);
-        }
+        const response = await axios.delete(
+            `${baseURL}/task/${userID}/${uuid}`
+        );
+        setTodos([todos]);
     };
     // Edit task
     const editTask = async (uuid, userText) => {
-        try {
-            const response = await axios.patch(
-                `${baseURL}/task/${userID}/${uuid}`,
-                { name: userText }
-            );
-            setTodos([todos]);
-        } catch (error) {
-            console.log(error);
-        }
+        const response = await axios.patch(
+            `${baseURL}/task/${userID}/${uuid}`,
+            { name: userText }
+        );
+        setTodos([todos]);
     };
 
     // Toggle task
     const toggleTask = async (uuid, status) => {
-        try {
-            const response = await axios.patch(
-                `${baseURL}/task/${userID}/${uuid}`,
-                { done: status }
-            );
-            setTodos([todos]);
-        } catch (error) {
-            console.log(error);
-        }
+        const response = await axios.patch(
+            `${baseURL}/task/${userID}/${uuid}`,
+            { done: status }
+        );
+        setTodos([todos]);
     };
 
     // Set filter
