@@ -42,13 +42,18 @@ const TodoItem = (props) => {
         }
     };
 
+    const handleRemove = (e) => {
+        e.currentTarget.disabled = true;
+        removeTask(item.uuid);
+    };
+
     return (
         <div>
             <div
                 style={{
                     fontFamily: 'Montserrat',
                     display: 'flex',
-                    aalignItems: 'center',
+                    alignItems: 'center',
                 }}>
                 {/* Checkbox */}
                 <Checkbox
@@ -87,7 +92,7 @@ const TodoItem = (props) => {
                         textAlign: 'right',
                     }}
                     type='secondary'>
-                    {item.createdAt}
+                    {/* {new Date(item.createdAt).getTime} */}
                 </Text>
 
                 {/* Delete */}
@@ -96,7 +101,7 @@ const TodoItem = (props) => {
                     icon={<DeleteOutlined />}
                     danger
                     type='text'
-                    onClick={() => removeTask(item.uuid)}></Button>
+                    onClick={handleRemove}></Button>
             </div>
             <Divider style={{ margin: '10px 0 10px 0' }} />
         </div>

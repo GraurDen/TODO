@@ -1,5 +1,6 @@
 {
-  "name": "todo_app",
+  "homepage": "https://graurden.github.io/TODO",
+  "name": "TODO",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

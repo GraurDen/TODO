@@ -3,6 +3,7 @@ import { Form, Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 
 const Add_task = (props) => {
+    const { showUserMessage, addTask } = props;
     // Initial State
     const [userInput, setUserInput] = useState('');
 
@@ -12,16 +13,14 @@ const Add_task = (props) => {
     };
 
     // Add task and clear input value
-    const hanldeSubmit = (e) => {
-        props.addTask(userInput);
-        setUserInput('');
-    };
-
-    // Add task on key 'Enter' press
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            hanldeSubmit(e);
+    const hanldeSubmit = () => {
+        if (userInput === '') {
+            showUserMessage();
+            console.log('!!!');
+            return;
         }
+        addTask(userInput);
+        setUserInput('');
     };
 
     return (
@@ -36,7 +35,6 @@ const Add_task = (props) => {
                     type='text'
                     onChange={handleChange}
                     value={userInput}
-                    onKeyDown={handleKeyPress}
                     placeholder='I want to...'
                     autoFocus={true}
                 />

@@ -11,23 +11,23 @@ import { message } from 'antd';
 function App() {
     const [todos, setTodos] = useState([]);
     const [filteredTodos, setFilteredTodos] = useState(todos);
-
+    // Tasks number per page
+    const [pageSize, setPageSize] = useState(5);
     // Activate filter button
     const [filterButtonBy, setFilterButtonBy] = useState('all');
     // Activate order button
     const [orderBy, setOrderBy] = useState('ask');
-    // Current page
-    const [currentPage, setCurrentPage] = useState(1);
-    // Tasks number per page
-    const [pageSize, setPageSize] = useState(5);
     // Tasks total
     const [totalItemsCount, setTotalItemsCount] = useState(0);
+    // Current page
+    const [currentPage, setCurrentPage] = useState(1);
 
     const baseURL = 'https://todo-api-learning.herokuapp.com/v1';
     const userID = 6;
 
     useEffect(() => {
         getTasks();
+        //setCurrentPage(Math.ceil(totalItemsCount / pageSize));
     }, [filterButtonBy, orderBy, currentPage, todos, totalItemsCount]);
 
     //#region FUNK
@@ -52,8 +52,12 @@ function App() {
             },
         });
         setFilteredTodos(response.data.tasks);
-        setCurrentPage(Math.ceil(response.data.count / pageSize));
+        setTotalItemsCount(response.data.count);
+        if (response.data.tasks.length === 0 && currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
     };
+
     // Set current page
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -77,6 +81,11 @@ function App() {
         );
         setTodos([todos]);
     };
+
+    const showUserMessage = () => {
+        message.info('Field must be filled !');
+    };
+
     // Edit task
     const editTask = async (uuid, userText) => {
         const response = await axios.patch(
@@ -100,13 +109,14 @@ function App() {
         setFilterButtonBy(status);
     };
     //#endregion
+
     return (
         <div className={style.container}>
             <Header task={totalItemsCount} />
 
             {/* Content */}
             <div className={style.todo}>
-                <AddTask addTask={addTask} />
+                <AddTask addTask={addTask} showUserMessage={showUserMessage} />
 
                 {/* Кнопки */}
                 <Options onOrderBy={onOrderBy} onSetFilterBy={onSetFilterBy} />

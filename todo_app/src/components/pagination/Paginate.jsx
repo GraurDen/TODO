@@ -13,6 +13,7 @@ const Paginate = (props) => {
                 defaultPageSize={5}
                 current={currentPage}
                 onChange={paginate}
+                hideOnSinglePage={true}
             />
         </div>
     );
