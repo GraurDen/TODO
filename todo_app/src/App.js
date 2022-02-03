@@ -14,16 +14,16 @@ function App() {
     // Tasks number per page
     const [pageSize, setPageSize] = useState(5);
     // Activate filter button
-    const [filterButtonBy, setFilterButtonBy] = useState('all');
+    const [filterButtonBy, setFilterButtonBy] = useState('');
     // Activate order button
-    const [orderBy, setOrderBy] = useState('ask');
+    const [orderBy, setOrderBy] = useState('asc');
     // Tasks total
     const [totalItemsCount, setTotalItemsCount] = useState(0);
     // Current page
     const [currentPage, setCurrentPage] = useState(1);
 
-    const baseURL = 'https://todo-api-learning.herokuapp.com/v1';
-    const userID = 6;
+    const baseURL = 'https://graurden-todo.herokuapp.com/api';
+    //const userID = 6;
 
     useEffect(() => {
         getTasks();
@@ -43,12 +43,12 @@ function App() {
 
     // Get all tasks
     const getTasks = async () => {
-        const response = await axios.get(`${baseURL}/tasks/${userID}`, {
+        const response = await axios.get(`${baseURL}/todos/`, {
             params: {
                 pp: pageSize,
                 page: currentPage,
-                filterBy: filterButtonBy !== '' ? filterButtonBy : '',
-                order: orderBy,
+                sortBy: filterButtonBy !== '' ? filterButtonBy : '',
+                orderBy: orderBy,
             },
         });
         setFilteredTodos(response.data.tasks);
@@ -68,7 +68,7 @@ function App() {
     };
     // addTask
     const addTask = async (userInput) => {
-        const response = await axios.post(`${baseURL}/task/${userID}`, {
+        const response = await axios.post(`${baseURL}/todo`, {
             name: userInput,
             done: false,
         });
@@ -76,9 +76,7 @@ function App() {
     };
     // Remove task
     const removeTask = async (uuid) => {
-        const response = await axios.delete(
-            `${baseURL}/task/${userID}/${uuid}`
-        );
+        const response = await axios.delete(`${baseURL}/todo/${uuid}`);
         setTodos([todos]);
     };
 
@@ -88,19 +86,17 @@ function App() {
 
     // Edit task
     const editTask = async (uuid, userText) => {
-        const response = await axios.patch(
-            `${baseURL}/task/${userID}/${uuid}`,
-            { name: userText }
-        );
+        const response = await axios.patch(`${baseURL}/todo/${uuid}`, {
+            name: userText,
+        });
         setTodos([todos]);
     };
 
     // Toggle task
     const toggleTask = async (uuid, status) => {
-        const response = await axios.patch(
-            `${baseURL}/task/${userID}/${uuid}`,
-            { done: status }
-        );
+        const response = await axios.patch(`${baseURL}/todo/${uuid}`, {
+            done: status,
+        });
         setTodos([todos]);
     };
 
@@ -127,7 +123,7 @@ function App() {
                         return (
                             <TodoItem
                                 item={item}
-                                key={item.uuid}
+                                key={item.id}
                                 removeTask={removeTask}
                                 toggleTask={toggleTask}
                                 editTask={editTask}

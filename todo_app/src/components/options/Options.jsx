@@ -5,7 +5,7 @@ import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 
 const Options = (props) => {
     const { onOrderBy, onSetFilterBy } = props;
-    const [filterBy, setFilterBy] = useState('all');
+    const [filterBy, setFilterBy] = useState('');
     const { Text } = Typography;
     const handleChange = (e) => {
         onSetFilterBy(e.target.value);
@@ -17,7 +17,7 @@ const Options = (props) => {
             <Row>
                 <Col flex='auto'>
                     <Radio.Group value={filterBy} onChange={handleChange}>
-                        <Radio.Button value='all'>All</Radio.Button>
+                        <Radio.Button value=''>All</Radio.Button>
                         <Radio.Button value='done'>Done</Radio.Button>
                         <Radio.Button value='undone'>Undone</Radio.Button>
                     </Radio.Group>

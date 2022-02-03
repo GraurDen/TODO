@@ -12,8 +12,8 @@ const TodoItem = (props) => {
     const [userInput, setUserInput] = useState(item.name);
 
     // Change task status
-    const handleChange = (e) => {
-        toggleTask(item.uuid, !item.done);
+    const handleChange = () => {
+        toggleTask(item.id, !item.done);
     };
 
     // Toggle task to 'edit mode'
@@ -23,7 +23,7 @@ const TodoItem = (props) => {
     // Deactivate 'edit mode' and update task name
     const deactivateEditMode = () => {
         setEditMode(!editMode);
-        editTask(item.uuid, userInput);
+        editTask(item.id, userInput);
     };
     // Set new task name
     const handleTaskName = (e) => {
@@ -44,7 +44,7 @@ const TodoItem = (props) => {
 
     const handleRemove = (e) => {
         e.currentTarget.disabled = true;
-        removeTask(item.uuid);
+        removeTask(item.id);
     };
 
     return (
