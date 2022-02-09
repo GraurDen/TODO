@@ -12,7 +12,7 @@ function App() {
     const [todos, setTodos] = useState([]);
     const [filteredTodos, setFilteredTodos] = useState(todos);
     // Tasks number per page
-    const [pageSize, setPageSize] = useState(5);
+    const [pageSize] = useState(5);
     // Activate filter button
     const [filterButtonBy, setFilterButtonBy] = useState('');
     // Activate order button
@@ -22,28 +22,25 @@ function App() {
     // Current page
     const [currentPage, setCurrentPage] = useState(1);
 
-    const baseURL = 'https://graurden-todo.herokuapp.com/api';
-    //const userID = 6;
+    const baseURL = 'http://localhost:5000/api';
 
     useEffect(() => {
         getTasks();
-        //setCurrentPage(Math.ceil(totalItemsCount / pageSize));
     }, [filterButtonBy, orderBy, currentPage, todos, totalItemsCount]);
 
     //#region FUNK
 
     axios.interceptors.response.use(
-        (response) => {
-            return response;
-        },
+        (response) => response,
         (error) => {
-            message.info(error.response.data.message);
+            const res = error.request.response;
+            message.error(res);
         }
     );
 
     // Get all tasks
     const getTasks = async () => {
-        const response = await axios.get(`${baseURL}/todos/`, {
+        const response = await axios.get(`${baseURL}/todos`, {
             params: {
                 pp: pageSize,
                 page: currentPage,
@@ -51,9 +48,9 @@ function App() {
                 orderBy: orderBy,
             },
         });
-        setFilteredTodos(response.data.tasks);
+        setFilteredTodos(response.data.rows);
         setTotalItemsCount(response.data.count);
-        if (response.data.tasks.length === 0 && currentPage > 1) {
+        if (response.data.count === 0 && currentPage > 1) {
             setCurrentPage(currentPage - 1);
         }
     };
@@ -68,7 +65,7 @@ function App() {
     };
     // addTask
     const addTask = async (userInput) => {
-        const response = await axios.post(`${baseURL}/todo`, {
+        await axios.post(`${baseURL}/todo`, {
             name: userInput,
             done: false,
         });
@@ -76,7 +73,7 @@ function App() {
     };
     // Remove task
     const removeTask = async (uuid) => {
-        const response = await axios.delete(`${baseURL}/todo/${uuid}`);
+        await axios.delete(`${baseURL}/todo/${uuid}`);
         setTodos([todos]);
     };
 
@@ -85,16 +82,17 @@ function App() {
     };
 
     // Edit task
-    const editTask = async (uuid, userText) => {
+    const editTask = async (uuid, userInput) => {
         const response = await axios.patch(`${baseURL}/todo/${uuid}`, {
-            name: userText,
+            name: userInput,
         });
+        console.log('response >>> ', response);
         setTodos([todos]);
     };
 
     // Toggle task
     const toggleTask = async (uuid, status) => {
-        const response = await axios.patch(`${baseURL}/todo/${uuid}`, {
+        await axios.patch(`${baseURL}/todo/${uuid}`, {
             done: status,
         });
         setTodos([todos]);

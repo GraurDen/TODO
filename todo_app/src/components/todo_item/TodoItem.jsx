@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Checkbox, Typography, Input, Button, Divider } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 
-const { Text, Link } = Typography;
+const { Text } = Typography;
 
 const TodoItem = (props) => {
     const { item, editTask, removeTask, toggleTask } = props;
@@ -15,7 +15,6 @@ const TodoItem = (props) => {
     const handleChange = () => {
         toggleTask(item.id, !item.done);
     };
-
     // Toggle task to 'edit mode'
     const toggleEditMode = () => {
         setEditMode(!editMode);
@@ -31,13 +30,14 @@ const TodoItem = (props) => {
     };
     // Discard changes input 'onBlur' and on 'Esc' click
     const discardChanges = (e) => {
-        let keyCode = e.keyCode;
-        if (keyCode === 27) {
+        if (e.keyCode === 27) {
             setUserInput(item.name);
             e.target.blur();
         }
-        if (keyCode === 13) {
-            setUserInput(e.currentTarget.value);
+        if (e.keyCode === 13) {
+            setUserInput(
+                e.currentTarget.value === '' ? item.name : e.currentTarget.value
+            );
             e.target.blur();
         }
     };
