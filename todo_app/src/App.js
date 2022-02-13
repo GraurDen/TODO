@@ -1,12 +1,11 @@
 import style from './App.module.css';
 import Header from './components/header/Header.jsx';
-import AddTask from './components/add_task/AddTask.jsx';
-import Options from './components/options/Options.jsx';
-import TodoItem from './components/todo_item/TodoItem.jsx';
-import Paginate from './components/pagination/Paginate.jsx';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { message } from 'antd';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
+import Auth from './components/auth';
+import Content from './components/content';
 
 function App() {
     const [todos, setTodos] = useState([]);
@@ -21,23 +20,77 @@ function App() {
     const [totalItemsCount, setTotalItemsCount] = useState(0);
     // Current page
     const [currentPage, setCurrentPage] = useState(1);
-
+    const navigate = useNavigate();
     const baseURL = 'http://localhost:5000/api';
 
+    const token = localStorage.getItem('token');
+
     useEffect(() => {
+        if (!token) {
+            localStorage.removeItem('userName');
+            navigate(`/auth`);
+        }
         getTasks();
     }, [filterButtonBy, orderBy, currentPage, todos, totalItemsCount]);
 
-    //#region FUNK
+    //#region functions
 
+    // Interceptors response
     axios.interceptors.response.use(
         (response) => response,
         (error) => {
-            const res = error.request.response;
-            message.error(res);
+            let errorMessage;
+            if (!error.request.response) {
+                errorMessage = 'No responce';
+            }
+            if (error.request.response === undefined) {
+                errorMessage = 'Client side trouble';
+            }
+            if (error.response) {
+                errorMessage = `${error.response.status}: ${error.response.data.message}`;
+            }
+            if (error.response.status === 401) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('userName');
+                navigate(`/auth`);
+            }
+            message.error(errorMessage);
         }
     );
 
+    // Interceptors request
+    axios.interceptors.request.use((config) => {
+        config.headers.Authorization = `Bearer ${localStorage.getItem(
+            'token'
+        )}`;
+        return config;
+    });
+
+    // Set userName to the localStorage
+    const setUserName = (userName) =>
+        localStorage.setItem('userName', userName);
+
+    // Get userName from localStorage
+    const userName = localStorage.getItem('userName');
+
+    // Authentication -> register / login
+    const authentication = async (userName, password, submitType) => {
+        try {
+            const res = await axios.post(`${baseURL}/${submitType}`, {
+                name: userName,
+                password,
+            });
+            const token = res.data.token;
+
+            localStorage.setItem('token', token);
+            getTasks();
+            if (submitType === 'register') message.info('You are registered');
+            if (submitType === 'auth') navigate('/content');
+        } catch (error) {
+            if (submitType === 'register') message.error('Registration error');
+            if (submitType === 'auth') message.error('Login error');
+        }
+    };
     // Get all tasks
     const getTasks = async () => {
         const response = await axios.get(`${baseURL}/todos`, {
@@ -76,7 +129,7 @@ function App() {
         await axios.delete(`${baseURL}/todo/${uuid}`);
         setTodos([todos]);
     };
-
+    // User message
     const showUserMessage = () => {
         message.info('Field must be filled !');
     };
@@ -104,39 +157,43 @@ function App() {
     };
     //#endregion
 
+    //if (testredirect) return <Navigate to={'/auth'} />;
     return (
         <div className={style.container}>
             <Header task={totalItemsCount} />
 
             {/* Content */}
-            <div className={style.todo}>
-                <AddTask addTask={addTask} showUserMessage={showUserMessage} />
-
-                {/* Кнопки */}
-                <Options onOrderBy={onOrderBy} onSetFilterBy={onSetFilterBy} />
-
-                {/* Items */}
-                <div className={style.todo__items}>
-                    {filteredTodos.map((item) => {
-                        return (
-                            <TodoItem
-                                item={item}
-                                key={item.id}
+            <div className={style.content}>
+                {/* {testredirect && <Navigate to='/auth' replace={true} />} */}
+                <Routes>
+                    <Route
+                        path='/auth'
+                        element={
+                            <Auth
+                                setUserName={setUserName}
+                                authentication={authentication}
+                            />
+                        }
+                    />
+                    <Route
+                        path='/content'
+                        element={
+                            <Content
+                                addTask={addTask}
+                                showUserMessage={showUserMessage}
+                                onOrderBy={onOrderBy}
+                                onSetFilterBy={onSetFilterBy}
                                 removeTask={removeTask}
                                 toggleTask={toggleTask}
                                 editTask={editTask}
+                                filteredTodos={filteredTodos}
+                                paginate={paginate}
+                                totalItemsCount={totalItemsCount}
+                                currentPage={currentPage}
                             />
-                        );
-                    })}
-                </div>
-
-                {/* Pagination */}
-                <Paginate
-                    paginate={paginate}
-                    pageSize={pageSize}
-                    currentPage={currentPage}
-                    totalItemsCount={totalItemsCount}
-                />
+                        }
+                    />
+                </Routes>
             </div>
         </div>
     );

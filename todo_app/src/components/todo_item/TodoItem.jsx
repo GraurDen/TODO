@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from 'react';
 import { Checkbox, Typography, Input, Button, Divider } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
-
 const { Text } = Typography;
 
 const TodoItem = (props) => {

@@ -16,7 +16,6 @@ const Add_task = (props) => {
     const hanldeSubmit = () => {
         if (userInput === '') {
             showUserMessage();
-            console.log('!!!');
             return;
         }
         addTask(userInput);

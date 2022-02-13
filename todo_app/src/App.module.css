@@ -1,4 +1,4 @@
-.container{
+.container {
     width: 100%;
     max-width: 500px;
     width: auto;
@@ -6,8 +6,7 @@
     padding: 0 10px;
 }
 
-
-.todo{
+.content > div {
     display: flex;
     flex-direction: column;
     max-width: 500px;
@@ -20,36 +19,36 @@
 }
 
 /* #region Input input block */
-.todo__input{
+.todo__input {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 30px;
 }
 
-.todo__task{
+.todo__task {
     width: 78%;
 }
 
-.todo__task input{
+.todo__task input {
     width: 100%;
     border-radius: 5px;
     border: 1px solid rgb(190, 189, 189);
     min-height: 40px;
     padding: 0 10px;
     font-size: 16px;
-    color:rgb(216, 212, 212);
+    color: rgb(216, 212, 212);
 }
 
-.todo__task input{
+.todo__task input {
     border: 1px solid rgb(190, 189, 189);
 }
 
-.todo__button{
+.todo__button {
     width: 15%;
 }
 
-.todo__button button{
+.todo__button button {
     overflow: hidden;
     display: block;
     width: 100%;
@@ -71,31 +70,31 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
-.todo__button button:hover{
-    box-shadow: none
+.todo__button button:hover {
+    box-shadow: none;
 }
 
-.todo__button button:active{
+.todo__button button:active {
     box-shadow: rgba(97, 97, 97, 0.16) 0px 0px 4px 2px inset;
 }
 /* #endregion */
 
 /* #region Todo options */
-.todo__options{
+.todo__options {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 30px;
 }
 
-.todo__options__left{
+.todo__options__left {
     width: 60%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
 }
 
-.todo__options__left button{
+.todo__options__left button {
     overflow: hidden;
     display: block;
     border: none;
@@ -116,17 +115,17 @@
     padding: 5px 10px;
 }
 
-.todo__options__left button:hover{
+.todo__options__left button:hover {
     color: #00b0ff;
     border-bottom: 2px solid #03a9f4;
 }
 
-button.btn_active_underline{
+button.btn_active_underline {
     color: #00b0ff;
     border-bottom: 2px solid #03a9f4;
 }
 
-.todo__options__right{
+.todo__options__right {
     width: 40%;
     display: flex;
     flex-direction: row;
@@ -134,7 +133,7 @@ button.btn_active_underline{
     align-items: center;
 }
 
-.todo__options__name{
+.todo__options__name {
     font-family: 'Montserrat', sans-serif;
     font-size: 13px;
     font-weight: 400;
@@ -142,7 +141,7 @@ button.btn_active_underline{
     margin-right: 10px;
 }
 
-.todo__options_sort button{
+.todo__options_sort button {
     width: 30px;
     height: 30px;
     border: none;
@@ -151,29 +150,29 @@ button.btn_active_underline{
     background-color: transparent;
 }
 
-.todo__options_sort button:hover{
+.todo__options_sort button:hover {
     background-color: #b9e8fa;
 }
 
-.todo__options_sort .new{
-    background-image: url('images/arrow_sort_up.svg');   
+.todo__options_sort .new {
+    background-image: url('images/arrow_sort_up.svg');
 }
 
-.todo__options_sort .last{
+.todo__options_sort .last {
     background-image: url('images/arrow_sort_down.svg');
 }
 
-button.btn_active_bg{
+button.btn_active_bg {
     background-color: #d4edf8;
 }
 
 /* #endregion */
 
 /*#region Todo items*/
-.todo__items{
+.todo__items {
     margin-bottom: 50px;
 }
-.todo__item{
+.todo__item {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -182,17 +181,17 @@ button.btn_active_bg{
     border-bottom: 1px solid rgb(226, 225, 225);
 }
 
-.todo__item:hover .todo__item__text{
+.todo__item:hover .todo__item__text {
     opacity: 0.8;
 }
 
-.todo__item__input input[type="checkbox"]{
+.todo__item__input input[type='checkbox'] {
     width: 18px;
     height: 18px;
     margin-right: 10px;
 }
 
-.todo__item__text{
+.todo__item__text {
     display: flex;
     flex-grow: 1;
     font-family: 'Montserrat', sans- serif;
@@ -202,16 +201,16 @@ button.btn_active_bg{
     color: #222;
 }
 
-.todo__item__date{
+.todo__item__date {
     font-family: 'Montserrat', sans-serif;
     font-size: 13px;
     font-weight: 500;
     line-height: 1.3;
     margin-right: 20px;
-    color: #888; 
+    color: #888;
 }
 
-.todo__item__del button{
+.todo__item__del button {
     width: 20px;
     height: 20px;
     border: none;
@@ -222,19 +221,19 @@ button.btn_active_bg{
     background-image: url('images/trasrh.svg');
 }
 
-.todo__item__del button:hover{
+.todo__item__del button:hover {
     background-color: #d4edf8;
 }
 /*#endregion*/
 
-.todo__pagination{
+.todo__pagination {
     display: flex;
     flex-direction: row;
     justify-content: center;
     color: #333;
 }
 
-.todo__pagination button{
+.todo__pagination button {
     font-family: 'Roboto', sans- serif;
     font-weight: 400;
     font-style: normal;
@@ -250,32 +249,31 @@ button.btn_active_bg{
     line-height: 1.2;
 }
 
-.todo__pagination button[disabled]{
+.todo__pagination button[disabled] {
     background-color: #eee;
     border-color: #ddd;
     color: rgb(189, 189, 189);
 }
 
-
 /* Кнропка - назад */
-button.btn-prev{
+button.btn-prev {
     border-radius: 0;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
 
 /* Кнопка - вперед */
-button.btn-next{    
+button.btn-next {
     border-radius: 0;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
 
-button.btn-next:hover{    
+button.btn-next:hover {
     background-color: rgb(221, 219, 219);
 }
 
-.todo__pagination span{
+.todo__pagination span {
     border: 1px solid #ddd;
     margin-left: -1px;
     overflow: hidden;
@@ -287,12 +285,11 @@ button.btn-next:hover{
     background-color: #fafafa;
 }
 
-.todo__pagination span:hover{
+.todo__pagination span:hover {
     background-color: #e3e3e3;
 }
 
-
-.todo__pagination span.pagination-selected{
+.todo__pagination span.pagination-selected {
     background-color: #eee;
     border-color: #ddd;
     font-weight: 700;
@@ -301,8 +298,8 @@ button.btn-next:hover{
 /* #endregion */
 
 /* #region Media Queries */
-@media only screen and (max-width: 767.98px){
-    .todo{
+@media only screen and (max-width: 767.98px) {
+    .todo {
         padding: 30px 10px;
     }
 
@@ -325,12 +322,12 @@ button.btn-next:hover{
         padding: 5px;
     }
 
-    .todo__options__name{
+    .todo__options__name {
         font-size: 10px;
         margin-right: 5px;
     }
 
-    .title{
+    .title {
         font-size: 24px;
         margin-bottom: 20px;
     }
