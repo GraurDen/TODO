@@ -1,5 +1,7 @@
+import React, { Suspense } from 'react';
 import style from './App.module.css';
 import Header from './components/header/Header.jsx';
+import ButtonsTranslations from './components/ButtonsTranslations.jsx';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { message } from 'antd';
@@ -155,46 +157,50 @@ function App() {
     const onSetFilterBy = (status) => {
         setFilterButtonBy(status);
     };
+
     //#endregion
 
     //if (testredirect) return <Navigate to={'/auth'} />;
     return (
         <div className={style.container}>
-            <Header task={totalItemsCount} />
+            <Suspense fallback={'Loading'}>
+                <ButtonsTranslations />
 
-            {/* Content */}
-            <div className={style.content}>
-                {/* {testredirect && <Navigate to='/auth' replace={true} />} */}
-                <Routes>
-                    <Route
-                        path='/auth'
-                        element={
-                            <Auth
-                                setUserName={setUserName}
-                                authentication={authentication}
-                            />
-                        }
-                    />
-                    <Route
-                        path='/content'
-                        element={
-                            <Content
-                                addTask={addTask}
-                                showUserMessage={showUserMessage}
-                                onOrderBy={onOrderBy}
-                                onSetFilterBy={onSetFilterBy}
-                                removeTask={removeTask}
-                                toggleTask={toggleTask}
-                                editTask={editTask}
-                                filteredTodos={filteredTodos}
-                                paginate={paginate}
-                                totalItemsCount={totalItemsCount}
-                                currentPage={currentPage}
-                            />
-                        }
-                    />
-                </Routes>
-            </div>
+                <Header task={totalItemsCount} />
+                {/* Content */}
+                <div className={style.content}>
+                    {/* {testredirect && <Navigate to='/auth' replace={true} />} */}
+                    <Routes>
+                        <Route
+                            path='/auth'
+                            element={
+                                <Auth
+                                    setUserName={setUserName}
+                                    authentication={authentication}
+                                />
+                            }
+                        />
+                        <Route
+                            path='/content'
+                            element={
+                                <Content
+                                    addTask={addTask}
+                                    showUserMessage={showUserMessage}
+                                    onOrderBy={onOrderBy}
+                                    onSetFilterBy={onSetFilterBy}
+                                    removeTask={removeTask}
+                                    toggleTask={toggleTask}
+                                    editTask={editTask}
+                                    filteredTodos={filteredTodos}
+                                    paginate={paginate}
+                                    totalItemsCount={totalItemsCount}
+                                    currentPage={currentPage}
+                                />
+                            }
+                        />
+                    </Routes>
+                </div>
+            </Suspense>
         </div>
     );
 }

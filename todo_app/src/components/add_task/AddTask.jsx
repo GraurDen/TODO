@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Input, Button } from 'antd';
+import { useTranslation } from 'react-i18next';
 import 'antd/dist/antd.min.css';
 
 const Add_task = (props) => {
     const { showUserMessage, addTask } = props;
     // Initial State
     const [userInput, setUserInput] = useState('');
+
+    const { t, i18n } = useTranslation();
 
     // Set input value
     const handleChange = (e) => {
