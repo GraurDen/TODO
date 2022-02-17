@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Radio, Typography, Row, Col } from 'antd';
 import { useState } from 'react';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 
 const Options = (props) => {
     const { onOrderBy, onSetFilterBy } = props;
@@ -11,20 +12,24 @@ const Options = (props) => {
         onSetFilterBy(e.target.value);
         setFilterBy(e.target.value);
     };
-
+    const { t } = useTranslation();
     return (
         <div style={{ marginBottom: '40px' }}>
             <Row>
                 <Col flex='auto'>
                     <Radio.Group value={filterBy} onChange={handleChange}>
-                        <Radio.Button value=''>All</Radio.Button>
-                        <Radio.Button value='done'>Done</Radio.Button>
-                        <Radio.Button value='undone'>Undone</Radio.Button>
+                        <Radio.Button value=''>{t('buttons.All')}</Radio.Button>
+                        <Radio.Button value='done'>
+                            {t('buttons.Done')}
+                        </Radio.Button>
+                        <Radio.Button value='undone'>
+                            {t('buttons.Undone')}
+                        </Radio.Button>
                     </Radio.Group>
                 </Col>
                 <Col flex='151px'>
                     <Text type='secondary' style={{ marginRight: '10px' }}>
-                        Sort by Date
+                        {t('Sort by Date')}
                     </Text>
                     <Button
                         icon={<ArrowDownOutlined />}

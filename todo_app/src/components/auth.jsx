@@ -2,30 +2,38 @@ import React from 'react';
 import { useState } from 'react';
 import { Form, Input, Button, Space } from 'antd';
 import 'antd/dist/antd.min.css';
+import { useTranslation } from 'react-i18next';
 
 const Auth = (props) => {
     const { setUserName, authentication } = props;
     const [userInputName, setUserInputName] = useState('');
     const [userInputPass, setUserInputPass] = useState('');
+    const { t } = useTranslation();
 
+    // Get name
     const nameSubmit = (e) => {
         setUserInputName(e.currentTarget.value);
     };
+    // Get password
     const passwordSubmit = (e) => {
         setUserInputPass(e.currentTarget.value);
     };
 
+    // Login
     const onButtonAuth = () => {
         setUserName(userInputName);
         authentication(userInputName, userInputPass, 'auth');
     };
 
+    // Registration
     const onButtonRegister = () => {
         setUserName(userInputName);
         authentication(userInputName, userInputPass, 'register');
     };
 
+    // Set Username
     setUserName(userInputName);
+
     return (
         <div
             style={{
@@ -41,7 +49,7 @@ const Auth = (props) => {
                 autoComplete='off'>
                 {/* Name */}
                 <Form.Item
-                    label='Username'
+                    label={t('Username')}
                     name='username'
                     rules={[
                         {
@@ -60,7 +68,7 @@ const Auth = (props) => {
                 </Form.Item>
                 {/* Password */}
                 <Form.Item
-                    label='Password'
+                    label={t('Password')}
                     name='password'
                     rules={[
                         {
@@ -88,14 +96,14 @@ const Auth = (props) => {
                             type='primary'
                             htmlType='submit'
                             onClick={onButtonAuth}>
-                            Login
+                            {t('buttons.Login')}
                         </Button>
 
                         <Button
                             type='secondary'
                             htmlType='submit'
                             onClick={onButtonRegister}>
-                            Registration
+                            {t('buttons.Registration')}
                         </Button>
                     </Space>
                 </Form.Item>

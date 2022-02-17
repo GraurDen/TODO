@@ -8,7 +8,7 @@ const Add_task = (props) => {
     // Initial State
     const [userInput, setUserInput] = useState('');
 
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     // Set input value
     const handleChange = (e) => {
@@ -37,13 +37,13 @@ const Add_task = (props) => {
                     type='text'
                     onChange={handleChange}
                     value={userInput}
-                    placeholder='I want to...'
+                    placeholder={t('Plaseholder')}
                     autoFocus={true}
                 />
             </Form.Item>
             <Form.Item style={{ margin: 0 }}>
                 <Button type='primary' htmlType='submit'>
-                    Add
+                    {t('buttons.buttonAdd')}
                 </Button>
             </Form.Item>
         </Form>
