@@ -8,6 +8,7 @@ import { message } from 'antd';
 import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import Auth from './components/auth';
 import Content from './components/content';
+import { useTranslation } from 'react-i18next';
 
 function App() {
     const [todos, setTodos] = useState([]);
@@ -26,6 +27,8 @@ function App() {
     const baseURL = 'http://localhost:5000/api';
 
     const token = localStorage.getItem('token');
+
+    const { i18n } = useTranslation();
 
     useEffect(() => {
         if (!token) {
@@ -86,6 +89,7 @@ function App() {
 
             localStorage.setItem('token', token);
             getTasks();
+            // Handling 'Register' and 'Login' submeet buttons
             if (submitType === 'register') message.info('You are registered');
             if (submitType === 'auth') navigate('/content');
         } catch (error) {
@@ -103,8 +107,10 @@ function App() {
                 orderBy: orderBy,
             },
         });
+
         setFilteredTodos(response.data.rows);
         setTotalItemsCount(response.data.count);
+
         if (response.data.count === 0 && currentPage > 1) {
             setCurrentPage(currentPage - 1);
         }
@@ -141,7 +147,7 @@ function App() {
         const response = await axios.patch(`${baseURL}/todo/${uuid}`, {
             name: userInput,
         });
-        console.log('response >>> ', response);
+
         setTodos([todos]);
     };
 
@@ -158,12 +164,32 @@ function App() {
         setFilterButtonBy(status);
     };
 
+    // Change locale
+    const setLocale = async (lng) => {
+        const response = await axios.get(`${baseURL}/`, { params: { lng } });
+        console.log(`response lang >>>>>> ${lng}`, response);
+    };
+
+    // Handling 'en' and 'ru' buttons clicks
+    const changeLanguage = (e) => {
+        setLocale(e.target.value);
+        i18n.changeLanguage(e.target.value);
+    };
     //#endregion
 
     //if (testredirect) return <Navigate to={'/auth'} />;
     return (
         <div className={style.container}>
             <Suspense fallback={'Loading'}>
+                <div>
+                    <button onClick={changeLanguage} value='en'>
+                        EN
+                    </button>
+                    <button onClick={changeLanguage} value='ru'>
+                        RU
+                    </button>
+                </div>
+
                 <ButtonsTranslations />
 
                 <Header task={totalItemsCount} />
