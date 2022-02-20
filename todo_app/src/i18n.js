@@ -28,6 +28,7 @@ i18n
         // Стандартный язык
         fallbackLng: 'en',
         lng: 'en',
+        preload: ['en', 'ru'],
         ns: 'translation',
         debug: true,
         interpolation: {

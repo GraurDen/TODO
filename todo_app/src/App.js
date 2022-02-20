@@ -54,6 +54,12 @@ function App() {
             if (error.response) {
                 errorMessage = `${error.response.status}: ${error.response.data.message}`;
             }
+            if (error.response.status === 404) {
+                errorMessage = `404 Page not found`;
+            }
+            if (error.response.status === 400) {
+                errorMessage = `Bad Request`;
+            }
             if (error.response.status === 401) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('userName');
@@ -147,7 +153,6 @@ function App() {
         const response = await axios.patch(`${baseURL}/todo/${uuid}`, {
             name: userInput,
         });
-
         setTodos([todos]);
     };
 
@@ -166,8 +171,10 @@ function App() {
 
     // Change locale
     const setLocale = async (lng) => {
-        const response = await axios.get(`${baseURL}/`, { params: { lng } });
-        console.log(`response lang >>>>>> ${lng}`, response);
+        const response = await axios.get(`${baseURL}/lag/`, {
+            params: { lng: lng },
+        });
+        message.info(response.data);
     };
 
     // Handling 'en' and 'ru' buttons clicks
