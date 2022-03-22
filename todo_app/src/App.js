@@ -1,14 +1,14 @@
-import React, { Suspense } from 'react';
-import style from './App.module.css';
-import Header from './components/header/Header.jsx';
-import ButtonsTranslations from './components/ButtonsTranslations.jsx';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { message } from 'antd';
-import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
-import Auth from './components/auth';
-import Content from './components/content';
-import { useTranslation } from 'react-i18next';
+import React, { Suspense } from "react";
+import style from "./App.module.css";
+import Header from "./components/header/Header.jsx";
+import ButtonsTranslations from "./components/ButtonsTranslations.jsx";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { message } from "antd";
+import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import Auth from "./components/auth";
+import Content from "./components/content";
+import { useTranslation } from "react-i18next";
 
 function App() {
     const [todos, setTodos] = useState([]);
@@ -16,23 +16,23 @@ function App() {
     // Tasks number per page
     const [pageSize] = useState(5);
     // Activate filter button
-    const [filterButtonBy, setFilterButtonBy] = useState('');
+    const [filterButtonBy, setFilterButtonBy] = useState("");
     // Activate order button
-    const [orderBy, setOrderBy] = useState('asc');
+    const [orderBy, setOrderBy] = useState("asc");
     // Tasks total
     const [totalItemsCount, setTotalItemsCount] = useState(0);
     // Current page
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
-    const baseURL = 'http://localhost:5000/api';
+    const baseURL = "http://localhost:5000/api";
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     const { i18n } = useTranslation();
 
     useEffect(() => {
         if (!token) {
-            localStorage.removeItem('userName');
+            localStorage.removeItem("userName");
             navigate(`/auth`);
         }
         getTasks();
@@ -46,10 +46,10 @@ function App() {
         (error) => {
             let errorMessage;
             if (!error.request.response) {
-                errorMessage = 'No responce';
+                errorMessage = "No responce";
             }
             if (error.request.response === undefined) {
-                errorMessage = 'Client side trouble';
+                errorMessage = "Client side trouble";
             }
             if (error.response) {
                 errorMessage = `${error.response.status}: ${error.response.data.message}`;
@@ -61,8 +61,8 @@ function App() {
                 errorMessage = `Bad Request`;
             }
             if (error.response.status === 401) {
-                localStorage.removeItem('token');
-                localStorage.removeItem('userName');
+                localStorage.removeItem("token");
+                localStorage.removeItem("userName");
                 navigate(`/auth`);
             }
             message.error(errorMessage);
@@ -72,17 +72,17 @@ function App() {
     // Interceptors request
     axios.interceptors.request.use((config) => {
         config.headers.Authorization = `Bearer ${localStorage.getItem(
-            'token'
+            "token"
         )}`;
         return config;
     });
 
     // Set userName to the localStorage
     const setUserName = (userName) =>
-        localStorage.setItem('userName', userName);
+        localStorage.setItem("userName", userName);
 
     // Get userName from localStorage
-    const userName = localStorage.getItem('userName');
+    const userName = localStorage.getItem("userName");
 
     // Authentication -> register / login
     const authentication = async (userName, password, submitType) => {
@@ -93,23 +93,30 @@ function App() {
             });
             const token = res.data.token;
 
-            localStorage.setItem('token', token);
+            localStorage.setItem("token", token);
             getTasks();
             // Handling 'Register' and 'Login' submeet buttons
-            if (submitType === 'register') message.info('You are registered');
-            if (submitType === 'auth') navigate('/content');
+            if (submitType === "register") message.info("You are registered");
+            if (submitType === "auth") navigate("/content");
         } catch (error) {
-            if (submitType === 'register') message.error('Registration error');
-            if (submitType === 'auth') message.error('Login error');
+            if (submitType === "register") message.error("Registration error");
+            if (submitType === "auth") message.error("Login error");
         }
     };
+
+    // Logout
+    const logout = () => {
+        localStorage.removeItem("userName");
+        navigate(`/auth`);
+    };
+
     // Get all tasks
     const getTasks = async () => {
         const response = await axios.get(`${baseURL}/todos`, {
             params: {
                 pp: pageSize,
                 page: currentPage,
-                sortBy: filterButtonBy !== '' ? filterButtonBy : '',
+                sortBy: filterButtonBy !== "" ? filterButtonBy : "",
                 orderBy: orderBy,
             },
         });
@@ -145,7 +152,7 @@ function App() {
     };
     // User message
     const showUserMessage = () => {
-        message.info('Field must be filled !');
+        message.info("Field must be filled !");
     };
 
     // Edit task
@@ -171,7 +178,7 @@ function App() {
 
     // Change locale
     const setLocale = async (lng) => {
-        const response = await axios.get(`${baseURL}/lag/`, {
+        const response = await axios.get(`${baseURL}/lang/`, {
             params: { lng: lng },
         });
         message.info(response.data);
@@ -184,20 +191,37 @@ function App() {
     };
     //#endregion
 
-    //if (testredirect) return <Navigate to={'/auth'} />;
     return (
         <div className={style.container}>
-            <Suspense fallback={'Loading'}>
-                <div>
-                    <button onClick={changeLanguage} value='en'>
-                        EN
-                    </button>
-                    <button onClick={changeLanguage} value='ru'>
-                        RU
-                    </button>
-                </div>
+            <Suspense fallback={"Loading"}>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                    }}>
+                    {/* EN / RU */}
+                    <div>
+                        <button
+                            type="button"
+                            onClick={changeLanguage}
+                            value="en">
+                            EN
+                        </button>
+                        <button
+                            type="button"
+                            onClick={changeLanguage}
+                            value="ru">
+                            RU
+                        </button>
+                    </div>
 
-                <ButtonsTranslations />
+                    {/* logout */}
+                    <div>
+                        <button type="button" onClick={logout}>
+                            Logout
+                        </button>
+                    </div>
+                </div>
 
                 <Header task={totalItemsCount} />
                 {/* Content */}
@@ -205,7 +229,7 @@ function App() {
                     {/* {testredirect && <Navigate to='/auth' replace={true} />} */}
                     <Routes>
                         <Route
-                            path='/auth'
+                            path="/auth"
                             element={
                                 <Auth
                                     setUserName={setUserName}
@@ -214,7 +238,7 @@ function App() {
                             }
                         />
                         <Route
-                            path='/content'
+                            path="/content"
                             element={
                                 <Content
                                     addTask={addTask}

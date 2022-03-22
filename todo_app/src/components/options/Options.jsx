@@ -1,12 +1,12 @@
-import React from 'react';
-import { Button, Radio, Typography, Row, Col } from 'antd';
-import { useState } from 'react';
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { Button, Radio, Typography, Row, Col } from "antd";
+import { useState } from "react";
+import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 const Options = (props) => {
     const { onOrderBy, onSetFilterBy } = props;
-    const [filterBy, setFilterBy] = useState('');
+    const [filterBy, setFilterBy] = useState("");
     const { Text } = Typography;
     const handleChange = (e) => {
         onSetFilterBy(e.target.value);
@@ -14,30 +14,30 @@ const Options = (props) => {
     };
     const { t } = useTranslation();
     return (
-        <div style={{ marginBottom: '40px' }}>
+        <div style={{ marginBottom: "40px" }}>
             <Row>
-                <Col flex='auto'>
+                <Col flex="auto">
                     <Radio.Group value={filterBy} onChange={handleChange}>
-                        <Radio.Button value=''>{t('buttons.All')}</Radio.Button>
-                        <Radio.Button value='done'>
-                            {t('buttons.Done')}
+                        <Radio.Button value="">{t("buttons.All")}</Radio.Button>
+                        <Radio.Button value="done">
+                            {t("buttons.Done")}
                         </Radio.Button>
-                        <Radio.Button value='undone'>
-                            {t('buttons.Undone')}
+                        <Radio.Button value="undone">
+                            {t("buttons.Undone")}
                         </Radio.Button>
                     </Radio.Group>
                 </Col>
-                <Col flex='151px'>
-                    <Text type='secondary' style={{ marginRight: '10px' }}>
-                        {t('Sort by Date')}
+                <Col>
+                    <Text type="secondary" style={{ marginRight: "10px" }}>
+                        {t("Sort by Date")}
                     </Text>
                     <Button
                         icon={<ArrowDownOutlined />}
-                        onClick={() => onOrderBy('asc')}
+                        onClick={() => onOrderBy("asc")}
                     />
                     <Button
                         icon={<ArrowUpOutlined />}
-                        onClick={() => onOrderBy('desc')}
+                        onClick={() => onOrderBy("desc")}
                     />
                 </Col>
             </Row>
